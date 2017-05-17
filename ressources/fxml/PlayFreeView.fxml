@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayFree.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.PlayFreeController">
+   <children>
+      <ImageView fitHeight="369.0" fitWidth="600.0" layoutX="13.0" layoutY="40.0">
+         <image>
+            <Image url="@../images/drumkit_4_580.jpg" />
+         </image>
+      </ImageView>
+      <Circle fx:id="cymbaleGauche" fill="#ff000000" layoutX="149.0" layoutY="135.0" onMouseClicked="#onClickCymbHautGauche" radius="79.0" stroke="#ff000000" strokeType="INSIDE" />
+      <Circle fx:id="caisseBasGauche" fill="#2197ff00" layoutX="210.0" layoutY="297.0" onMouseClicked="#onClickCaisseBasGauche" radius="69.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="cymbaleBasGauche" fill="#732d2d00" layoutX="117.0" layoutY="270.0" onMouseClicked="#onClickCymbBasGauche" radius="62.0" stroke="#ff000000" strokeType="INSIDE" />
+      <Circle fx:id="caisseHautGauche" fill="#1316cf00" layoutX="239.0" layoutY="182.0" onMouseClicked="#onClickCaisseHautGauche" radius="54.0" stroke="#ff000000" strokeType="INSIDE" />
+      <Circle fx:id="caisseBasDroite" fill="#2197ff00" layoutX="444.0" layoutY="287.0" onMouseClicked="#onClickCaisseBasDroite" radius="74.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="caisseHautDroite" fill="#b2595900" layoutX="356.0" layoutY="188.0" onMouseClicked="#onClickCaisseHautDroite" radius="64.0" stroke="#ff000000" strokeType="INSIDE" />
+      <Circle fx:id="cymbaleDroite" fill="#00ffae00" layoutX="467.0" layoutY="124.0" onMouseClicked="#onClickCymbHautDroite" radius="75.0" stroke="#ff000000" strokeType="INSIDE" />
+      <Ellipse fx:id="pedale" fill="#1f93ff00" layoutX="307.0" layoutY="287.0" onMouseClicked="#onClickPedale" radiusX="17.0" radiusY="45.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Button fx:id="playFree" layoutX="1.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>

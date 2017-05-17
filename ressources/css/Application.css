@@ -1,0 +1,16 @@
+.play{
+	
+	-fx-background-image: url("/images/play.png"); 
+	-fx-background-color:transparent ;
+	-fx-cursor: hand ;
+	 
+	
+}
+.navigate{
+	
+	-fx-cursor: hand ;
+	-fx-background-color:transparent ;
+}
+.musicBox{
+	
+}

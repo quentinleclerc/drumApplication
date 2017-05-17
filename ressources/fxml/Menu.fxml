@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" styleClass="root" stylesheets="@/css/Menu.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MenuController">
+   <children>
+      <Button fx:id="playMidi" layoutX="243.0" layoutY="177.0" mnemonicParsing="false" onAction="#onPlayMidi" prefHeight="64.0" prefWidth="147.0" text="Play Midi File" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="listening" layoutX="446.0" layoutY="177.0" mnemonicParsing="false" onMouseClicked="#onListening" prefHeight="64.0" prefWidth="147.0" text="Listening socket">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="playFree" layoutX="37.0" layoutY="177.0" mnemonicParsing="false" onAction="#onPlayFree" prefHeight="64.0" prefWidth="147.0" text="Play Free Style" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="38.0" layoutY="294.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="147.0" text="Button">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="243.0" layoutY="294.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="147.0" text="Button">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="446.0" layoutY="294.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="147.0" text="Button">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Text id="welcome-text" layoutX="1.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Virtual Drum" textAlignment="CENTER" wrappingWidth="628.0">
+         <font>
+            <Font size="46.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
