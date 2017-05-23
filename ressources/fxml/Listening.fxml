@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayMidi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ListeningController">
+<Pane fx:id="pane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayMidi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ListeningController">
 <children>
     <Button fx:id="backToMenu" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER">
         <font>
             <Font size="16.0" />
         </font>
     </Button>
-      <Button fx:id="startButton" layoutX="193.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="242.0" text="Start listening to socket" textAlignment="CENTER">
+      <Button fx:id="startButton" layoutX="417.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="208.0" text="Start listening to socket" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="stopButton" layoutX="193.0" layoutY="233.0" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="242.0" text="Stop listening to socket" textAlignment="CENTER">
+      <Button fx:id="stopButton" layoutX="417.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="startTraining" layoutX="417.0" layoutY="108.0" mnemonicParsing="false" onMouseClicked="#onClickStartTraining" prefHeight="37.0" prefWidth="208.0" text="Start training" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="stopTraining" layoutX="417.0" layoutY="152.0" mnemonicParsing="false" onMouseClicked="#onClickStopTraining" prefHeight="37.0" prefWidth="208.0" text="Stop training" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="selectionMorceau" layoutX="452.0" layoutY="341.0" prefWidth="150.0" />
+      <Button fx:id="playSong" layoutX="406.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Play selected song" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>

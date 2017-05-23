@@ -42,15 +42,7 @@ public class PlayFreeController implements Initializable {
 
 	public PlayFreeController() {
 		System.out.println("PlayFreeController initialized.");
-
-		CustomSynthesizer cs = new CustomSynthesizer();
-		URL resource = getClass().getResource("/soundbanks/sdb.sf2");
-		String fileName = resource.getFile();
-		File file = new File(fileName);
-
-		cs.loadSoundbank(file);
-
-		this.drummer = new Drummer(cs);
+		this.drummer = new Drummer();
 	}
 
 	public void setPrevStage(Stage stage){
@@ -112,7 +104,6 @@ public class PlayFreeController implements Initializable {
 	@FXML
 	void onClickMenu(MouseEvent event) {
 		this.mainApp.showMenuView(this.prevStage);
-		// myController.setScreen(MainView.MenuViewID);
 	}
 
 
