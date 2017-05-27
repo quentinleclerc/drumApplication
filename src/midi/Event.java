@@ -10,7 +10,7 @@ public class Event {
 	private int velocity;
 
 	public Event(long temps, int note, int velocity) {
-		timeMilis = temps;
+		this.timeMilis = temps;
 		this.note = note;
 		this.velocity = velocity;
 	}

@@ -1,15 +1,10 @@
 package midi;
 
-import player.Drummer;
 import java.util.ArrayList;
-
 
 public class SoundRecord {
 
 	private ArrayList<Event> events;
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
-	}
 
 	private String nom;
 
@@ -18,36 +13,25 @@ public class SoundRecord {
 		this.nom = nom;
 	}
 
+	public SoundRecord(String nom, ArrayList<Event> events) {
+		this.events = events;
+		this.nom = nom;
+	}
+
 	public ArrayList<Event> getEvents() {
 		return events;
 	}
 
-	public long getTempo(){
-		ArrayList<Long> inter = getIntervales();
-		int max = 0;
-		long tempo = 0;
-		for (int i = 0; i < inter.size(); i++) {
-			int count = 0;
-			long loc_tempo = inter.get(i);
-			for (Long anInter : inter) {
-				long ir = inter.get(i);
-				long jr = anInter;
-				if (ir == jr) {
-					count++;
-				}
-			}
-			if (count > max){
-				max = count;
-				tempo = loc_tempo;
-			}
-			else if (count==max){
-				max=count;
-				if (loc_tempo < tempo){
-					tempo=loc_tempo;
-				}
-			}
-		}
-		return tempo; // a changer pour trouver le pgcd
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
+	}
+
+	public void addEvent(Event event){
+		this.events.add(event);
+	}
+
+	public String getNom() {
+		return nom;
 	}
 	
 	public long getMinInter(){
@@ -77,63 +61,6 @@ public class SoundRecord {
 	
 	public void clean(){
 		events.clear();
-		
-	}
-	
-	public void addEvent(Event event){
-		this.events.add(event);
-	}
-	
-	public String toString(){
-		return events.toString();
-	}
-
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void play(Drummer drummer) {
-		int first = 0;
-		int size = 0;
-		ArrayList<Long> list = this.getIntervales();
-		long temps = list.get(0);
-		try {
-			Thread.sleep(temps);
-			int note = this.getEvents().get(0).getNote();
-			int velocity = this.getEvents().get(0).getVelocity();
-
-			drummer.noteOn(note, velocity);
-
-			int i;
-
-			System.out.println("Debut file");
-
-			for (i = 0; i <= list.size()-1; i++) {
-				if (first == 0){
-					first++;
-				}
-				else {
-					if (i == list.size()){
-						temps = list.get(0);
-					}
-					else {
-						temps = list.get(i);
-					}
-
-					Thread.sleep(temps - 100);
-
-					System.out.println("Valeur de i = " + i);
-					note = this.getEvents().get(i).getNote();
-					velocity = this.getEvents().get(i).getVelocity();
-
-					drummer.noteOn(note, velocity);
-				}
-			}
-		}
-		catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void changeTempo(double d) {
@@ -150,6 +77,10 @@ public class SoundRecord {
 			System.out.println("nouveaux temps: "+ events);
 		}
 		
+	}
+
+	public String toString(){
+		return events.toString();
 	}
 
 }

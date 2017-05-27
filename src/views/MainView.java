@@ -5,20 +5,17 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import midi.Event;
+import midi.Scores;
 import midi.SoundRecord;
-import midi.Trainer;
 import network.UDP_Server;
 import player.MidiPlayer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainView extends Application {
 
@@ -26,6 +23,12 @@ public class MainView extends Application {
     private static String PlayFreeViewFXML = "/fxml/PlayFreeView.fxml";
     private static String PlayMidiFXML = "/fxml/PlayMidi.fxml";
     private static String ListeningFXML = "/fxml/Listening.fxml";
+
+    private static final int KICK = 35; // pied
+    private static final int SNARE = 38; // gauche
+    private static final int HIGH_TOM = 50; // millieu gauche
+    private static final int MIDDLE_TOM = 43; // millieu droite
+    private static final int FLOOR_TOM = 41; // droite
 
     private static Stage primaryStage;
 
@@ -127,6 +130,7 @@ public class MainView extends Application {
             controller.setPrevStage(stage);
             controller.setMainApp(this);
             controller.setPlayer(new MidiPlayer());
+            controller.setScoreManager(new Scores());
             UDP_Server server = new UDP_Server(5678);
             controller.setServer(server);
 
@@ -153,16 +157,24 @@ public class MainView extends Application {
         rec.add(macarena);
 
         SoundRecord EatSleepRaveRepeat = new SoundRecord("EatSleepRaveRepeat");
-        Event e1 = new Event(500, 50, 100);
-        Event e2 = new Event(1000, 43, 100);
-        Event e3 = new Event(1500, 38, 100);
-        Event e4 = new Event(2000, 41, 100);
-        Event e5 = new Event(2200, 41, 100);
+        Event e1 = new Event(200, KICK, 100);
+        Event e2 = new Event(400, FLOOR_TOM, 100);
+        Event e3 = new Event(600, SNARE, 100);
+        Event e4 = new Event(800, HIGH_TOM, 100);
+        Event e5 = new Event(1000, KICK, 100);
+        Event e6 = new Event(1300, KICK, 100);
+        Event e7 = new Event(1600, KICK, 100);
+        Event e8 = new Event(1900, KICK, 100);
+
         EatSleepRaveRepeat.addEvent(e1);
         EatSleepRaveRepeat.addEvent(e2);
         EatSleepRaveRepeat.addEvent(e3);
         EatSleepRaveRepeat.addEvent(e4);
         EatSleepRaveRepeat.addEvent(e5);
+        EatSleepRaveRepeat.addEvent(e6);
+        EatSleepRaveRepeat.addEvent(e7);
+        EatSleepRaveRepeat.addEvent(e8);
+
         rec.add(EatSleepRaveRepeat);
 
         SoundRecord test = new SoundRecord("Facile");

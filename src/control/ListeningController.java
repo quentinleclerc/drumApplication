@@ -1,8 +1,6 @@
 package control;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,9 +13,9 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import midi.Event;
+import midi.Scores;
 import midi.SoundRecord;
 
-import midi.Trainer;
 import network.UDP_Server;
 
 import player.CustomSynthesizer;
@@ -29,7 +27,6 @@ import views.MainView;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -81,6 +78,8 @@ public class ListeningController implements Initializable {
 
     private MidiPlayer player;
 
+    private Scores scoreManager;
+
 
     public ListeningController() {
         System.out.println("Listening initialized.");
@@ -109,6 +108,10 @@ public class ListeningController implements Initializable {
 
     public void setPlayer(MidiPlayer player) {
         this.player = player;
+    }
+
+    public void setScoreManager(Scores scoreManager) {
+        this.scoreManager = scoreManager;
     }
 
     @Override
@@ -249,12 +252,13 @@ public class ListeningController implements Initializable {
 
         this.training = true;
 
-        // this.noteListener = new NoteListenerPeriodicThread(selectedRecord());
-        // this.server.addListener(noteListener);
+        this.noteListener = new NoteListenerPeriodicThread(selectedRecord());
+        this.server.setListener(noteListener);
 
         this.noteListenerThread = new Thread(noteListener);
         this.noteListenerThread.start();
 
+        this.scoreManager.initializeSong(selectedRecord());
         // START LUIS
         // LOOPING boolean
 
@@ -282,13 +286,15 @@ public class ListeningController implements Initializable {
         return selectionMorceau.getSelectionModel().getSelectedItem();
     }
 
-    private ArrayList<Event> selectedRecord() {
-        ArrayList<Event> record;
+    private SoundRecord selectedRecord() {
+        SoundRecord record;
         if (getSelectedItem() == null) {
-            record = getSelectedItem().getEvents();
+            record = getSelectedItem();
         }
         else if (!fileImported.equals("")) {
-            record = null;
+            ArrayList<Event> events = null;
+            record = new SoundRecord(fileImported, events);
+            // TODO : Transformer midi son en Sound Records
             // record = fileImported.;
         }
         else {
@@ -302,7 +308,7 @@ public class ListeningController implements Initializable {
         Platform.runLater(() -> {
             SoundRecord selected = getSelectedItem();
             if (selected != null) {
-                selected.play(drummer);
+                //selected.play(drummer);
             }
             else if (!fileImported.equals("")) {
                 this.player.loadAndPlay(fileImported, looping);
@@ -312,5 +318,6 @@ public class ListeningController implements Initializable {
             }
         });
     }
+
 
 }

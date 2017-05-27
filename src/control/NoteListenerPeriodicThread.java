@@ -1,6 +1,7 @@
 package control;
 
 import midi.Event;
+import midi.SoundRecord;
 
 import java.util.ArrayList;
 
@@ -8,14 +9,14 @@ import static java.lang.Thread.sleep;
 
 public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
 
-    private ArrayList<Event> played;
+    private SoundRecord played;
 
-    private ArrayList<Event> record;
+    private SoundRecord record;
 
     private boolean training;
 
-    public NoteListenerPeriodicThread(ArrayList<Event> record) {
-        this.played = new ArrayList<>();
+    public NoteListenerPeriodicThread(SoundRecord record) {
+        this.played = new SoundRecord("Played_by_user");
         this.record = record;
     }
 
@@ -29,7 +30,7 @@ public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
 
     @Override
     public void receivedNote(int note, int velocity, long time) {
-        this.played.add(new Event(time, note, velocity));
+        this.played.addEvent(new Event(time, note, velocity));
     }
 
     @Override
