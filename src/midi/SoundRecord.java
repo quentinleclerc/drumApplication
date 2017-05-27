@@ -7,6 +7,10 @@ import java.util.ArrayList;
 public class SoundRecord {
 
 	private ArrayList<Event> events;
+	public void setEvents(ArrayList<Event> events) {
+		this.events = events;
+	}
+
 	private String nom;
 
 	public SoundRecord(String nom) {
@@ -46,19 +50,14 @@ public class SoundRecord {
 		return tempo; // a changer pour trouver le pgcd
 	}
 	
-	public void augmenter_difficlute(double d){
+	public long getMinInter(){
 		ArrayList<Long> inter = getIntervales();
-		for (int i = 0; i < events.size(); i++) {
-			if (i==0){
-				int temps = (int) (inter.get(i)*d); 
-				events.get(i).setTemps(temps);					
-			}
-			else{
-				int temps = (int) (inter.get(i)*d); 
-				events.get(i).setTemps(events.get(i-1).getTemps() + temps);	
-			}
-			System.out.println("nouveaux temps: "+ events);
+		long min = Long.MAX_VALUE;
+		for (int i = 0; i < inter.size(); i++) {
+			if (inter.get(i)<min) min = inter.get(i);
 		}
+		return min;
+		
 	}
 	
 	public  ArrayList<Long> getIntervales(){
@@ -135,6 +134,22 @@ public class SoundRecord {
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void changeTempo(double d) {
+		ArrayList<Long> inter = getIntervales();
+		for (int i = 0; i < events.size(); i++) {
+			if (i==0){
+				int temps = (int) (inter.get(i)*d); 
+				events.get(i).setTemps(temps);					
+			}
+			else{
+				int temps = (int) (inter.get(i)*d); 
+				events.get(i).setTemps(events.get(i-1).getTemps() + temps);	
+			}
+			System.out.println("nouveaux temps: "+ events);
+		}
+		
 	}
 
 }
