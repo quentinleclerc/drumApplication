@@ -1,21 +1,20 @@
 package control;
 
-
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javafx.util.StringConverter;
 
+import midi.Event;
 import midi.SoundRecord;
 
 import midi.Trainer;
@@ -24,17 +23,20 @@ import network.UDP_Server;
 import player.CustomSynthesizer;
 import player.Drummer;
 
+import player.MidiPlayer;
 import views.MainView;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ListeningController implements Initializable, NoteChannel {
+public class ListeningController implements Initializable {
 
     @FXML
-    Button backToMenu;
+    private Button backToMenu;
     @FXML
     private Button startButton;
     @FXML
@@ -49,9 +51,16 @@ public class ListeningController implements Initializable, NoteChannel {
     private Button playSong;
     @FXML
     private ComboBox<SoundRecord> selectionMorceau;
+    @FXML
+    private RadioButton selectRecord;
+    @FXML
+    private RadioButton selectComputer;
+    @FXML
+    private ImageView folderIcon;
+    @FXML
+    private CheckBox loopCheckBox;
 
     private Stage prevStage;
-
     private MainView mainApp;
 
     private UDP_Server server;
@@ -62,12 +71,21 @@ public class ListeningController implements Initializable, NoteChannel {
 
     private ObservableList<SoundRecord> records;
 
-    private Trainer trainer;
+    private NoteListenerPeriodicThread noteListener;
+
+    private Thread noteListenerThread;
+
+    private String fileImported;
+
+    private boolean looping;
+
+    private MidiPlayer player;
 
 
     public ListeningController() {
         System.out.println("Listening initialized.");
         this.training = false;
+        this.looping = false;
     }
 
     public void setPrevStage(Stage stage){
@@ -78,14 +96,74 @@ public class ListeningController implements Initializable, NoteChannel {
         this.records = records;
         initializeComboBox();
 
-        System.out.println("records bien initialise");
+        System.out.println("records bien initialisés");
+    }
+
+    public void setMainApp(MainView mainApp) {
+        this.mainApp = mainApp;
+    }
+
+    public void setServer(UDP_Server server) {
+        this.server = server;
+    }
+
+    public void setPlayer(MidiPlayer player) {
+        this.player = player;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
         stopButton.setDisable(true);
         stopTraining.setDisable(true);
+
+        folderIcon.setVisible(false);
+        selectionMorceau.setDisable(true);
+
+        initializeSelectButtons();
         initializeDrummer();
+        initializeCheckBox();
+    }
+
+    private void initializeCheckBox() {
+        loopCheckBox.setSelected(false);
+
+        loopCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (loopCheckBox.isSelected()) {
+                this.looping = true;
+                System.out.println(looping);
+            } else {
+                this.looping = false;
+                System.out.println(looping);
+            }
+        });
+    }
+
+    private void initializeSelectButtons() {
+        ToggleGroup group = new ToggleGroup();
+
+        selectComputer.setToggleGroup(group);
+        selectRecord.setToggleGroup(group);
+        selectComputer.setSelected(false);
+        selectRecord.setSelected(false);
+
+        group.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            Toggle selected = group.getSelectedToggle();
+            if (selected.equals(selectComputer)) {
+                this.selectionMorceau.setDisable(true);
+                this.folderIcon.setVisible(true);
+                this.selectionMorceau.getSelectionModel().clearSelection();
+                this.selectionMorceau.setValue(null);
+            }
+            else if (selected.equals(selectRecord)) {
+                this.selectionMorceau.setDisable(false);
+                this.folderIcon.setCache(true);
+                this.folderIcon.setVisible(false);
+                this.fileImported = "";
+            }
+            else {
+                selectionMorceau.setDisable(true);
+            }
+        });
     }
 
     private void initializeComboBox() {
@@ -122,7 +200,7 @@ public class ListeningController implements Initializable, NoteChannel {
         });
 
         selectionMorceau.setOnAction((event) -> {
-            SoundRecord selectedRecord = selectionMorceau.getSelectionModel().getSelectedItem();
+            SoundRecord selectedRecord = getSelectedItem();
             System.out.println("ComboBox Action (selected: " + selectedRecord.toString() + ")");
         });
     }
@@ -146,6 +224,7 @@ public class ListeningController implements Initializable, NoteChannel {
     void onClickStart(MouseEvent event) {
         startButton.setDisable(true);
         stopButton.setDisable(false);
+        this.server.setListener(noteListener);
         Thread threadServeur = new Thread(server);
         threadServeur.start();
     }
@@ -167,9 +246,18 @@ public class ListeningController implements Initializable, NoteChannel {
     void onClickStartTraining(MouseEvent event) {
         stopTraining.setDisable(false);
         startTraining.setDisable(true);
-        this.trainer = new Trainer(selectedRecord(), this.drummer);
-        this.trainer.startTraining();
-        this.server.setListener(trainer);
+
+        this.training = true;
+
+        // this.noteListener = new NoteListenerPeriodicThread(selectedRecord());
+        // this.server.addListener(noteListener);
+
+        this.noteListenerThread = new Thread(noteListener);
+        this.noteListenerThread.start();
+
+        // START LUIS
+        // LOOPING boolean
+
     }
 
     @FXML
@@ -177,32 +265,52 @@ public class ListeningController implements Initializable, NoteChannel {
         stopTraining.setDisable(true);
         startTraining.setDisable(false);
 
+        this.training = false;
+
+        this.noteListenerThread.interrupt();
+        // STOP LUIS
     }
 
-    private SoundRecord selectedRecord() {
+    @FXML
+    void onFolderClicked(MouseEvent event) {
+        FilesController fileController = new FilesController();
+        this.fileImported = fileController.importFile();
+
+    }
+
+    private SoundRecord getSelectedItem() {
         return selectionMorceau.getSelectionModel().getSelectedItem();
+    }
+
+    private ArrayList<Event> selectedRecord() {
+        ArrayList<Event> record;
+        if (getSelectedItem() == null) {
+            record = getSelectedItem().getEvents();
+        }
+        else if (!fileImported.equals("")) {
+            record = null;
+            // record = fileImported.;
+        }
+        else {
+            record = null;
+        }
+        return record;
     }
 
     @FXML
     void onClickPlay(MouseEvent event) {
         Platform.runLater(() -> {
-            selectedRecord().play(drummer);
+            SoundRecord selected = getSelectedItem();
+            if (selected != null) {
+                selected.play(drummer);
+            }
+            else if (!fileImported.equals("")) {
+                this.player.loadAndPlay(fileImported, looping);
+            }
+            else {
+                System.out.println("No file or record selected");
+            }
         });
     }
-
-    public void setMainApp(MainView mainApp) {
-        this.mainApp = mainApp;
-    }
-
-    public void setServer(UDP_Server server) {
-        this.server = server;
-    }
-
-    @Override
-    public void receivedNote(int note, int velocity, long time) {
-        this.drummer.noteOn(note, velocity);
-    }
-
-
 
 }

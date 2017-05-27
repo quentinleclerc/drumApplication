@@ -1,42 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Ellipse?>
 
-<Pane fx:id="pane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayMidi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ListeningController">
+<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0" prefWidth="683.0" stylesheets="@/css/Listening.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ListeningController">
 <children>
     <Button fx:id="backToMenu" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER">
         <font>
             <Font size="16.0" />
         </font>
     </Button>
-      <Button fx:id="startButton" layoutX="417.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="208.0" text="Start listening to socket" textAlignment="CENTER">
+      <Button fx:id="startButton" layoutX="14.0" layoutY="424.0" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="208.0" text="Start listening to socket" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="stopButton" layoutX="417.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER">
+      <Button fx:id="stopButton" layoutX="14.0" layoutY="470.0" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="startTraining" layoutX="417.0" layoutY="108.0" mnemonicParsing="false" onMouseClicked="#onClickStartTraining" prefHeight="37.0" prefWidth="208.0" text="Start training" textAlignment="CENTER">
+      <Button fx:id="startTraining" layoutX="238.0" layoutY="424.0" mnemonicParsing="false" onMouseClicked="#onClickStartTraining" prefHeight="37.0" prefWidth="208.0" text="Start training" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="stopTraining" layoutX="417.0" layoutY="152.0" mnemonicParsing="false" onMouseClicked="#onClickStopTraining" prefHeight="37.0" prefWidth="208.0" text="Stop training" textAlignment="CENTER">
+      <Button fx:id="stopTraining" layoutX="238.0" layoutY="470.0" mnemonicParsing="false" onMouseClicked="#onClickStopTraining" prefHeight="37.0" prefWidth="208.0" text="Stop training" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <ComboBox fx:id="selectionMorceau" layoutX="452.0" layoutY="341.0" prefWidth="150.0" />
-      <Button fx:id="playSong" layoutX="406.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Play selected song" textAlignment="CENTER">
+      <ComboBox fx:id="selectionMorceau" layoutX="369.0" layoutY="584.0" prefHeight="37.0" prefWidth="208.0" />
+      <Button fx:id="playSong" layoutX="467.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Play selected song" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
+
+        <ImageView fitHeight="369.0" fitWidth="600.0" layoutX="42.0" layoutY="48.0">
+            <image>
+                <Image url="@../images/drumkit_4_580.jpg" />
+            </image>
+        </ImageView>
+        <Circle fx:id="cymbaleGauche" fill="#ff000000" layoutX="178.0" layoutY="143.0" radius="79.0" stroke="#ff000000" strokeType="INSIDE" />
+        <Circle fx:id="caisseBasGauche" fill="#2197ff00" layoutX="239.0" layoutY="305.0" radius="69.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+        <Circle fx:id="cymbaleBasGauche" fill="#732d2d00" layoutX="146.0" layoutY="278.0" radius="62.0" stroke="#ff000000" strokeType="INSIDE" />
+        <Circle fx:id="caisseHautGauche" fill="#1316cf00" layoutX="268.0" layoutY="190.0" radius="54.0" stroke="#ff000000" strokeType="INSIDE" />
+        <Circle fx:id="caisseBasDroite" fill="#2197ff00" layoutX="473.0" layoutY="295.0" radius="74.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+        <Circle fx:id="caisseHautDroite" fill="#b2595900" layoutX="385.0" layoutY="196.0" radius="64.0" stroke="#ff000000" strokeType="INSIDE" />
+        <Circle fx:id="cymbaleDroite" fill="#00ffae00" layoutX="496.0" layoutY="132.0" radius="75.0" stroke="#ff000000" strokeType="INSIDE" />
+        <Ellipse fx:id="pedale" fill="#1f93ff00" layoutX="336.0" layoutY="295.0" radiusX="17.0" radiusY="45.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <RadioButton fx:id="selectComputer" layoutX="39.0" layoutY="571.0" mnemonicParsing="false" text="Select MIDI file from computer" textFill="WHITE" />
+      <RadioButton fx:id="selectRecord" layoutX="39.0" layoutY="599.0" mnemonicParsing="false" text="Select record from list" textFill="WHITE" />
+      <ImageView fx:id="folderIcon" fitHeight="70.0" fitWidth="69.0" layoutX="274.0" layoutY="567.0" onMouseClicked="#onFolderClicked">
+         <image>
+            <Image url="@../images/noun_970671_cc.png" />
+         </image>
+      </ImageView>
+      <CheckBox fx:id="loopCheckBox" layoutX="284.0" layoutY="537.0" mnemonicParsing="false" text="Loop training song">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </CheckBox>
 </children>
 </Pane>

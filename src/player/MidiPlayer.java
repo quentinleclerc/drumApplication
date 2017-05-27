@@ -32,6 +32,15 @@ public class MidiPlayer implements MetaEventListener {
 
     /**
      * Loads a sequence from the file system. Returns null if an error occurs.
+     * Starts playing
+     */
+    public void loadAndPlay(String filename, boolean looping) {
+        Sequence seq = getSequence(filename);
+        play(seq, looping);
+    }
+
+    /**
+     * Loads a sequence from the file system. Returns null if an error occurs.
      */
     public Sequence getSequence(String filename) {
         try {

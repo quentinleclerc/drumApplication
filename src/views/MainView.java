@@ -14,6 +14,7 @@ import midi.Event;
 import midi.SoundRecord;
 import midi.Trainer;
 import network.UDP_Server;
+import player.MidiPlayer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -125,8 +126,8 @@ public class MainView extends Application {
             controller.setRecords(records);
             controller.setPrevStage(stage);
             controller.setMainApp(this);
+            controller.setPlayer(new MidiPlayer());
             UDP_Server server = new UDP_Server(5678);
-            server.setListener(controller);
             controller.setServer(server);
 
             prevStage.close();
