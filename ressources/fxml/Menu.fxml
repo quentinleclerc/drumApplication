@@ -22,7 +22,7 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="38.0" layoutY="294.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="147.0" text="Button">
+      <Button fx:id="playRythm" layoutX="38.0" layoutY="294.0" mnemonicParsing="false" onAction="#onPlayRythm" prefHeight="64.0" prefWidth="147.0" text="Play in Rythm">
          <font>
             <Font size="16.0" />
          </font>

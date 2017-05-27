@@ -25,6 +25,7 @@ public class MainView extends Application {
     private static String PlayFreeViewFXML = "/fxml/PlayFreeView.fxml";
     private static String PlayMidiFXML = "/fxml/PlayMidi.fxml";
     private static String ListeningFXML = "/fxml/Listening.fxml";
+    private static String PlayInRythmFXML = "/fxml/PlayInRythm.fxml";
 
     private static Stage primaryStage;
 
@@ -128,6 +129,30 @@ public class MainView extends Application {
             UDP_Server server = new UDP_Server(5678);
             server.setListener(controller);
             controller.setServer(server);
+
+            prevStage.close();
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void showPlayInRythmView(Stage prevStage) {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Play In Rythm View");
+            Pane myPane;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(MainView.PlayInRythmFXML));
+
+            myPane = loader.load();
+
+            Scene scene = new Scene(myPane);
+            stage.setScene(scene);
+
+            PlayInRythmController controller = loader.getController();
+            controller.setPrevStage(stage);
+            controller.setMainApp(this);
 
             prevStage.close();
             stage.show();
