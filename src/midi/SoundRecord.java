@@ -12,8 +12,9 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 
 	private String name;
 		
-	public SoundRecord(String string) {
+	public SoundRecord(String name) {
 		super();
+		this.name = name;
 	}
 	
 	public SoundRecord(String fileImported, ArrayList<Event> events) {
@@ -62,22 +63,22 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 		return name;
 	}
 
-	public void setEvents(ArrayList<Event> value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public ArrayList<Event> getEvents() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void changeTempo(double d) {
-		// TODO Auto-generated method stub
-		
+		ArrayList<Long> inter = getIntervales();
+		for (int i = 0; i < this.size(); i++) {
+			if (i==0){
+				int temps = (int) (inter.get(i)*d);
+				this.get(i).setTemps(temps);
+			}
+			else{
+				int temps = (int) (inter.get(i)*d);
+				this.get(i).setTemps(this.get(i-1).getTemps() + temps);
+			}
+			System.out.println("nouveaux temps: "+ this);
+		}
+
 	}
-	
-		
+  
 //	public static void main(String[] args) {
 //		// TODO Auto-generated method stub
 //		System.out.println("Translator de track ");

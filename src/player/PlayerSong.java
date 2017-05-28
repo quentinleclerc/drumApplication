@@ -8,12 +8,13 @@ import midi.MidiFileToSong;
 import midi.SoundRecord;
 
 public class PlayerSong implements Runnable{
+
 	private SoundRecord song ;
 	private Drummer drum;
-	public PlayerSong(SoundRecord song) {
 
-		drum = new Drummer();
-		this.song=song;
+	public PlayerSong(SoundRecord song) {
+		this.drum = new Drummer();
+		this.song = song;
 	}
 
 	public void playSong(){
@@ -29,11 +30,12 @@ public class PlayerSong implements Runnable{
 			int velocity = event.getVelocity();
 			drum.noteOn(note, velocity);
 			try {
-				Thread.sleep((long)(this.song.get(i+1).getTemps()-timestamp));
+				Thread.sleep((long)(this.song.get(i+1).getTemps() - timestamp));
 			} catch (ArrayIndexOutOfBoundsException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
+				e.printStackTrace();
 			}
 		}
 		//last event

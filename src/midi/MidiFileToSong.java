@@ -7,10 +7,13 @@ import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Track;
 
 public class MidiFileToSong {
-	public final float rapidite;
-	public long delay; 
-	public SoundRecord song;
-	public final Track drumTrack;
+
+	private final float rapidite;
+	private long delay;
+	private SoundRecord song;
+	private final Track drumTrack;
+	private String name;
+
 	public MidiFileToSong(String filepath, float rapidite, long delay) {
 		super();
 		//TODO : faire ave l'url
@@ -18,6 +21,7 @@ public class MidiFileToSong {
 //		String fileName = resource.getFile();
 		File file = new File(filepath);
 		MidiReader midiReader= new MidiReader(file);
+		this.name = filepath;
 		this.rapidite=rapidite;
 		Track interm=null;
 		try {
@@ -31,7 +35,7 @@ public class MidiFileToSong {
 	}
 
 	public void buildSong(){
-		this.song= new SoundRecord();
+		this.song= new SoundRecord("");
 		for (int i = 0; i < this.drumTrack.size(); i++) {
 			MidiEvent me = this.drumTrack.get(i);
 			//If note on? 

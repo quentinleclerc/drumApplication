@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import midi.Event;
+import midi.MidiFileToSong;
 import midi.Scores;
 import midi.SoundRecord;
 
@@ -22,6 +23,7 @@ import player.CustomSynthesizer;
 import player.Drummer;
 
 import player.MidiPlayer;
+import player.PlayerSong;
 import views.MainView;
 
 import java.io.File;
@@ -56,13 +58,13 @@ public class ListeningController implements Initializable {
     private ImageView folderIcon;
     @FXML
     private CheckBox loopCheckBox;
+    @FXML
+    private Label scoreLabel;
 
     private Stage prevStage;
     private MainView mainApp;
 
     private UDP_Server server;
-
-    private Drummer drummer;
 
     private Boolean training;
 
@@ -75,8 +77,6 @@ public class ListeningController implements Initializable {
     private String fileImported;
 
     private boolean looping;
-
-    private MidiPlayer player;
 
     private Scores scoreManager;
 
@@ -106,10 +106,6 @@ public class ListeningController implements Initializable {
         this.server = server;
     }
 
-    public void setPlayer(MidiPlayer player) {
-        this.player = player;
-    }
-
     public void setScoreManager(Scores scoreManager) {
         this.scoreManager = scoreManager;
     }
@@ -123,8 +119,8 @@ public class ListeningController implements Initializable {
         selectionMorceau.setDisable(true);
 
         initializeSelectButtons();
-        initializeDrummer();
         initializeCheckBox();
+        // initializeDrummer();
     }
 
     private void initializeCheckBox() {
@@ -203,11 +199,12 @@ public class ListeningController implements Initializable {
         });
 
         selectionMorceau.setOnAction((event) -> {
-            SoundRecord selectedRecord = getSelectedItem();
-            System.out.println("ComboBox Action (selected: " + selectedRecord.toString() + ")");
+            // SoundRecord selectedRecord = getSelectedItem();
+            // System.out.println("ComboBox Action (selected: " + selectedRecord.toString() + ")");
         });
     }
 
+    /*
     private void initializeDrummer() {
         CustomSynthesizer cs = new CustomSynthesizer();
         URL resource = getClass().getResource("/soundbanks/sdb.sf2");
@@ -217,6 +214,7 @@ public class ListeningController implements Initializable {
         this.drummer = new Drummer();
         System.out.println("drummer bien initialise");
     }
+    */
 
     @FXML
     void onClickMenu(MouseEvent event) {
@@ -250,8 +248,9 @@ public class ListeningController implements Initializable {
         startTraining.setDisable(true);
 
         this.training = true;
+        this.scoreLabel.setVisible(false);
 
-        this.noteListener = new NoteListenerPeriodicThread(selectedRecord());
+        this.noteListener = new NoteListenerPeriodicThread(selectedRecord(), this.scoreManager);
         this.server.setListener(noteListener);
 
         this.noteListenerThread = new Thread(noteListener);
@@ -270,8 +269,12 @@ public class ListeningController implements Initializable {
 
         this.training = false;
 
+
+        String score = this.scoreManager.end_record();
+        this.scoreLabel.setText(score);
+        this.scoreLabel.setVisible(true);
+        System.out.println(score);
         this.noteListenerThread.interrupt();
-        // STOP LUIS
     }
 
     @FXML
@@ -287,14 +290,13 @@ public class ListeningController implements Initializable {
 
     private SoundRecord selectedRecord() {
         SoundRecord record;
-        if (getSelectedItem() == null) {
+        if (getSelectedItem() != null) {
             record = getSelectedItem();
         }
         else if (!fileImported.equals("")) {
             ArrayList<Event> events = null;
-            record = new SoundRecord(fileImported, events);
-            // TODO : Transformer midi son en Sound Records
-            // record = fileImported.;
+            MidiFileToSong translator = new MidiFileToSong(fileImported, 1.5F, 0 );
+            record = translator.getSong();
         }
         else {
             record = null;
@@ -305,16 +307,9 @@ public class ListeningController implements Initializable {
     @FXML
     void onClickPlay(MouseEvent event) {
         Platform.runLater(() -> {
-            SoundRecord selected = getSelectedItem();
-            if (selected != null) {
-                //selected.play(drummer);
-            }
-            else if (!fileImported.equals("")) {
-                this.player.loadAndPlay(fileImported, looping);
-            }
-            else {
-                System.out.println("No file or record selected");
-            }
+            SoundRecord selected = selectedRecord();
+            PlayerSong player = new PlayerSong(selected);
+            player.playSong();
         });
     }
 
