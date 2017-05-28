@@ -12,10 +12,18 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 
 	private String name;
 		
-	public SoundRecord() {
+	public SoundRecord(String string) {
 		super();
 	}
 	
+	public SoundRecord(String fileImported, ArrayList<Event> events) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public SoundRecord() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public long getMinInter(){
 		ArrayList<Long> inter = getIntervales();
 		long min = Long.MAX_VALUE;
@@ -52,6 +60,21 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 	
 	public String getNom() {
 		return name;
+	}
+
+	public void setEvents(ArrayList<Event> value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public ArrayList<Event> getEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void changeTempo(double d) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 		

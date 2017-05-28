@@ -6,19 +6,23 @@ import java.util.Map;
 import player.Drummer;;
 
 public class TempsCercles extends HashMap<Integer,Long>{
-	private final HashMap<Integer,Integer> mapDistance;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final Map<Integer, Double> mapDistance;
 	private final double vitesse;
 	
-	public TempsCercles(HashMap<Integer,Integer> mapDistance,float vitesse) {
+	public TempsCercles(Map<Integer, Double> kickDistance,float vitesse) {
 //		this.mapDistance=mapDistance;
-		this.mapDistance=mapDistance;
+		this.mapDistance=kickDistance;
 		this.vitesse=vitesse;
 		computeTime();
 	}
 	
 	public void computeTime(){
 //		HashMap<Integer,Double> mapTemps = new HashMap<Integer,Double>();
-		for (java.util.Map.Entry<Integer, Integer> entry : this.mapDistance.entrySet()){
+		for (java.util.Map.Entry<Integer, Double> entry : this.mapDistance.entrySet()){
 			this.put(entry.getKey(), (long)( entry.getValue()/this.vitesse));
 		}
 	}

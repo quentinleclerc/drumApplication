@@ -39,7 +39,7 @@ public class Scores {
 	    
 
 	private void setScoresMax() {
-		score_max = original_song.getEvents().size()*2;	
+		//score_max = original_song.getEvents().size()*2;	
 		System.out.println("score max : " +  score_max);
 		Iterator<Entry<Integer, ArrayList<Event>>> it = recordByNote.entrySet().iterator();
 	    while (it.hasNext()) {
