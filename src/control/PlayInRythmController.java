@@ -6,20 +6,22 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.animation.PathTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.VLineTo;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import views.MainView;
+
+import static java.lang.Thread.sleep;
 
 public class PlayInRythmController implements Initializable{
 	@FXML
@@ -46,14 +48,14 @@ public class PlayInRythmController implements Initializable{
 	@FXML
 	private Ellipse pedale;
 	private static final int int8 = 35;
-	
 	@FXML
 	private Pane fondPlayRythm;
 	
 	private Stage prevStage;
+
 	private MainView mainApp;
 	
-	private Map<Integer, Double> kickDistance = new HashMap<Integer, Double>();
+	private Map<Integer, Double> kickDistance = new HashMap<>();
 
 	public PlayInRythmController() {
 		System.out.println("PlayInRythmController initialized.");
@@ -66,11 +68,6 @@ public class PlayInRythmController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-	}
-
-	public void setMainApp(MainView mainApp) {
-		this.mainApp = mainApp;
 		kickDistance.put(int1, caisseBasGauche.getLayoutY() - caisseBasGauche.getRadius());
 		kickDistance.put(int2, caisseHautDroite.getLayoutY() - caisseHautDroite.getRadius());
 		kickDistance.put(int3, cymbaleBasGauche.getLayoutY() - cymbaleBasGauche.getRadius());
@@ -82,11 +79,16 @@ public class PlayInRythmController implements Initializable{
 		printDistance();
 	}
 
+	public void setMainApp(MainView mainApp) {
+		this.mainApp = mainApp;
+	}
+
 	@FXML
 	void onClickCymbHautGauche(MouseEvent event) {
 		System.out.println("T'as cliqué sur la cymbale en haut à gauche");
 		Circle circle = makeCircle(cymbaleGauche, 0.6);
-		moveCircle(circle, cymbaleGauche);
+		moveShape(circle, cymbaleGauche, fondPlayRythm);
+		// moveCircle(circle, cymbaleGauche);
 	}
 
 	@FXML
@@ -189,8 +191,14 @@ public class PlayInRythmController implements Initializable{
 	    pathTransition.setNode(circle);
 	    pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 	    pathTransition.play();
+	    pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				fondPlayRythm.getChildren().remove(circle);
+			}
+		});
 	}
-	
+
 	private void moveEllipse(Ellipse ellipse){
 	    Path path = new Path();
 	    path.getElements().add(new MoveTo(ellipse.getCenterX(),ellipse.getCenterY()));
@@ -201,11 +209,35 @@ public class PlayInRythmController implements Initializable{
 	    pathTransition.setNode(ellipse);
 	    pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 	    pathTransition.play();
+		pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				fondPlayRythm.getChildren().remove(ellipse);
+			}
+		});
 	}
-	
+
+	private void moveShape(Shape shape, Shape target, Pane parent){
+		Path path = new Path();
+		path.getElements().add(new MoveTo(shape.getLayoutX(),shape.getLayoutY()));
+		path.getElements().add(new VLineTo(target.getLayoutY())); //Distance (pédale cible)
+		PathTransition pathTransition = new PathTransition();
+		pathTransition.setDuration(Duration.millis(1000)); //Temps (en ms)
+		pathTransition.setPath(path);
+		pathTransition.setNode(shape);
+		pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+		pathTransition.play();
+		pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				parent.getChildren().remove(shape);
+			}
+		});
+	}
+
 	
 	public boolean circleInTarget(Circle target, Circle circle2){ 
-		return target.getBoundsInParent().intersects(circle2.getBoundsInParent()); 
+		return target.getBoundsInParent().intersects(circle2.getBoundsInParent());
 	}
 
 	public boolean ellipseInTarget(Ellipse target, Ellipse ellipse){ 
