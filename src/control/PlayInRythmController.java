@@ -8,12 +8,10 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
-import midi.Event;
 import player.ThreadCircle;
 import views.MainView;
 
@@ -43,7 +41,7 @@ public class PlayInRythmController implements Initializable{
 	private Ellipse pedale;
 	private static final int int8 = 35;
 	@FXML
-	private static Pane fondPlayRythm;
+	private Pane fondPlayRythm;
 
 	private Stage prevStage;
 
@@ -51,6 +49,7 @@ public class PlayInRythmController implements Initializable{
 
 	private Map<Integer, Double> kickDistance = new HashMap<>();
 	private Map<Integer, Circle> liaisonToms = new HashMap<>();
+	private Thread threadCircle;
 
 	public PlayInRythmController() {
 		System.out.println("PlayInRythmController initialized.");
@@ -130,12 +129,13 @@ public class PlayInRythmController implements Initializable{
 	@FXML
 	void onClickMenu(MouseEvent event) {
 		this.mainApp.showMenuView(this.prevStage);
+		threadCircle.interrupt();
 	}
 	
 	@FXML
 	void onClickPlay(MouseEvent event) {
-		Thread tC = new Thread (new ThreadCircle(this.kickDistance, this.liaisonToms, this.pedale));
-		tC.start();
+		threadCircle = new Thread (new ThreadCircle(this, this.kickDistance, this.liaisonToms, this.pedale));
+		threadCircle.start();
 	}
 
 	/*public Circle makeCircle(Circle target, double opacity) {
@@ -232,8 +232,8 @@ public class PlayInRythmController implements Initializable{
 		return pedale;
 	}
 	
-	public static void addShape(Shape e){
-		if(e==null){
+	public void addShape(Shape e){
+		if(e == null){
 			System.out.println("NUUUUUUUUUUUUUUULLLLLLLLLLL");
 		}
 		else{
@@ -241,7 +241,7 @@ public class PlayInRythmController implements Initializable{
 		}
 	}
 	
-	public static void removeShape(Shape e){
+	public void removeShape(Shape e){
 		fondPlayRythm.getChildren().remove(e);
 	}
 

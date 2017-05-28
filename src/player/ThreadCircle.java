@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import control.PlayInRythmController;
 import javafx.animation.PathTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.shape.Circle;
@@ -15,6 +16,7 @@ import midi.SoundRecord;
 import shapes.HandlerCircle;
 
 public class ThreadCircle implements Runnable {
+	private final PlayInRythmController controller;
 	private Map<Integer, Double> kickDistance;
 	private Map<Integer, Circle> liaisonToms;
 	private Map<Circle, PathTransition> liaisonCirclesToPath = new HashMap<>();
@@ -22,19 +24,21 @@ public class ThreadCircle implements Runnable {
 	private Ellipse pedale;
 	private HandlerCircle hc;
 	private CerclesRepresentation cercleRepresentation;
+	private SoundRecord song;
 
 	// Default Constructor
-	public ThreadCircle(Map<Integer, Double> map, Map<Integer, Circle> map2, Ellipse ellipse) {
+	public ThreadCircle(PlayInRythmController controller, Map<Integer, Double> map, Map<Integer, Circle> map2, Ellipse ellipse) {
 		this.kickDistance = map;
 		this.liaisonToms = map2;
 		this.pedale = ellipse;
+		this.controller = controller;
 		hc = new HandlerCircle();
 		initializeCirclesRep();
 	}
 
 	private void initializeCirclesRep(){
-		MidiFileToSong translator = new MidiFileToSong("test.mid",3F,0);
-		SoundRecord song = translator.getSong();
+		MidiFileToSong translator = new MidiFileToSong("test.mid",7F,0);
+		song = translator.getSong();
 		this.cercleRepresentation = new CerclesRepresentation(song, kickDistance);
 		System.out.println(cercleRepresentation);
 
@@ -44,7 +48,7 @@ public class ThreadCircle implements Runnable {
 		this.liaisonCirclesToPath.get(sh).setOnFinished(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				PlayInRythmController.removeShape(sh);
+				Platform.runLater(() -> controller.removeShape(sh));
 			}
 		});
 	}
@@ -53,7 +57,7 @@ public class ThreadCircle implements Runnable {
 		this.liaisonEllipsesToPath.get(sh).setOnFinished(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				PlayInRythmController.removeShape(sh);
+				Platform.runLater(() -> controller.removeShape(sh));
 			}
 		});
 	}
@@ -61,21 +65,23 @@ public class ThreadCircle implements Runnable {
 	public void moveToTom(int note){
 		if(note == 35){
 			Ellipse pedaleTemp = hc.makeEllipse(pedale);
-			System.out.println("PEDALE NULLE ? : " + pedaleTemp == null  + "!!!!!!!");
-			PlayInRythmController.addShape(pedaleTemp);
+			Platform.runLater(() -> controller.addShape(pedaleTemp));
 			liaisonEllipsesToPath.put(pedaleTemp, hc.moveEllipse(pedaleTemp, pedale));
 		}
 		else{
 			Circle target = liaisonToms.get(note);
 			Circle circleTemp = hc.makeCircle(target);
-			System.out.println("CERCLE NUL ? : " + (circleTemp == null) + "!!!!!!!");
-			PlayInRythmController.addShape(circleTemp);
+			Platform.runLater(() -> controller.addShape(circleTemp));
 			liaisonCirclesToPath.put(circleTemp, hc.moveCircle(circleTemp, target));
 		}
 	}
 
 	public void run() {
 		int i;
+
+		PlayerSong player = new PlayerSong(song);
+		player.playSong();
+
 		for (i = 0; i < cercleRepresentation.size()-1; i++) {
 			Event event = cercleRepresentation.get(i);
 			double timestamp = event.getTemps();
@@ -87,7 +93,7 @@ public class ThreadCircle implements Runnable {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
 		//last event
