@@ -12,8 +12,9 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 
 	private String name;
 		
-	public SoundRecord() {
+	public SoundRecord(String name) {
 		super();
+		this.name = name;
 	}
 	
 	public long getMinInter(){
@@ -53,7 +54,23 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 	public String getNom() {
 		return name;
 	}
-	
+
+	public void changeTempo(double d) {
+		ArrayList<Long> inter = getIntervales();
+		for (int i = 0; i < this.size(); i++) {
+			if (i==0){
+				int temps = (int) (inter.get(i)*d);
+				this.get(i).setTemps(temps);
+			}
+			else{
+				int temps = (int) (inter.get(i)*d);
+				this.get(i).setTemps(this.get(i-1).getTemps() + temps);
+			}
+			System.out.println("nouveaux temps: "+ this);
+		}
+
+	}
+
 		
 //	public static void main(String[] args) {
 //		// TODO Auto-generated method stub

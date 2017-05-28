@@ -130,7 +130,6 @@ public class MainView extends Application {
             controller.setRecords(records);
             controller.setPrevStage(stage);
             controller.setMainApp(this);
-            controller.setPlayer(new MidiPlayer());
             controller.setScoreManager(new Scores());
             UDP_Server server = new UDP_Server(5678);
             controller.setServer(server);
