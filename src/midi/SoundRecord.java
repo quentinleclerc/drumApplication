@@ -1,37 +1,19 @@
 package midi;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SoundRecord {
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Track;
 
-	private ArrayList<Event> events;
+public class SoundRecord extends  ArrayList<Event> implements Serializable {
 
-	private String nom;
-
-	public SoundRecord(String nom) {
-		this.events = new ArrayList<Event>();
-		this.nom = nom;
-	}
-
-	public SoundRecord(String nom, ArrayList<Event> events) {
-		this.events = events;
-		this.nom = nom;
-	}
-
-	public ArrayList<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
-	}
-
-	public void addEvent(Event event){
-		this.events.add(event);
-	}
-
-	public String getNom() {
-		return nom;
+	private String name;
+		
+	public SoundRecord() {
+		super();
 	}
 	
 	public long getMinInter(){
@@ -47,40 +29,40 @@ public class SoundRecord {
 	public  ArrayList<Long> getIntervales(){
 		ArrayList<Long> list = new ArrayList<>();
 		
-		for (int i = 0; i<this.getEvents().size();i++) {
+		for (int i = 0; i<this.size();i++) {
 			if (i==0){
-				list.add(i, this.getEvents().get(i).getTemps());
+				list.add(i, this.get(i).getTemps());
 				
 			}
 			else{
-				list.add(i, this.getEvents().get(i).getTemps()-this.getEvents().get(i-1).getTemps());
+				list.add(i, this.get(i).getTemps()-this.get(i-1).getTemps());
 			}
 		}
 		return list;
 	}
 	
 	public void clean(){
-		events.clear();
-	}
-
-	public void changeTempo(double d) {
-		ArrayList<Long> inter = getIntervales();
-		for (int i = 0; i < events.size(); i++) {
-			if (i==0){
-				int temps = (int) (inter.get(i)*d); 
-				events.get(i).setTemps(temps);					
-			}
-			else{
-				int temps = (int) (inter.get(i)*d); 
-				events.get(i).setTemps(events.get(i-1).getTemps() + temps);	
-			}
-			System.out.println("nouveaux temps: "+ events);
-		}
+		this.clear();
 		
 	}
-
-	public String toString(){
-		return events.toString();
+	
+	public void addEvent(Event event){
+		this.add(event);
 	}
+	
+	public String getNom() {
+		return name;
+	}
+	
+		
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		System.out.println("Translator de track ");
+//		MidiFileToSong translator = new MidiFileToSong(new File("test.mid"),1.0F,0);
+//		SoundRecord song = translator.getSong();
+//		System.out.println(song);
+//		CerclesRepresentation cr = new CerclesRepresentation(song, mapDistance)
+//		translator.setDelay(100.0);
+//	}
 
 }

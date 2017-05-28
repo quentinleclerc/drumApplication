@@ -1,6 +1,8 @@
 package midi;
 
-public class Event {
+import java.io.Serializable;
+
+public class Event implements Serializable{
 
 
 	private long timeMilis;
@@ -10,7 +12,7 @@ public class Event {
 	private int velocity;
 
 	public Event(long temps, int note, int velocity) {
-		this.timeMilis = temps;
+		timeMilis = temps;
 		this.note = note;
 		this.velocity = velocity;
 	}

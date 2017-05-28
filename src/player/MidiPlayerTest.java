@@ -24,7 +24,7 @@ public class MidiPlayerTest implements MetaEventListener {
     private MidiPlayer player;
 
     public void run() {
-
+  
         player = new MidiPlayer();
         URL resource = getClass().getResource("/midi/Movie_Themes_-_20th_Century_Fox.mid");
         String fileName = resource.getFile();
