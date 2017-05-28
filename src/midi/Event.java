@@ -2,7 +2,7 @@ package midi;
 
 import java.io.Serializable;
 
-public class Event implements Serializable{
+public class Event implements Serializable, Comparable<Event>{
 
 
 	private long timeMilis;
@@ -37,6 +37,11 @@ public class Event implements Serializable{
 	public String toString() {
 		return "Event [Temps = " + timeMilis + ", Note = " + note
 				+ ", Velocity = " + velocity + "]\n";
+	}
+
+	@Override
+	public int compareTo(Event e) {
+		return (int)(this.getTemps() - e.getTemps());
 	}
 	
 	

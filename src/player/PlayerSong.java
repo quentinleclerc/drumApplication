@@ -34,6 +34,7 @@ public class PlayerSong implements Runnable{
 			} catch (ArrayIndexOutOfBoundsException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
 		}

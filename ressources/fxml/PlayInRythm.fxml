@@ -27,5 +27,10 @@
             <Font size="16.0" />
          </font>
       </Button>
+      <Button fx:id="play" layoutX="506.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="91.0" text="|&gt;  Play" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

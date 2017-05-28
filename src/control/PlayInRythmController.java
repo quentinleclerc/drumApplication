@@ -5,23 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javafx.animation.PathTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import player.ThreadCircle;
 import views.MainView;
-
-import static java.lang.Thread.sleep;
 
 public class PlayInRythmController implements Initializable{
 	@FXML
@@ -50,12 +42,14 @@ public class PlayInRythmController implements Initializable{
 	private static final int int8 = 35;
 	@FXML
 	private Pane fondPlayRythm;
-	
+
 	private Stage prevStage;
 
 	private MainView mainApp;
-	
+
 	private Map<Integer, Double> kickDistance = new HashMap<>();
+	private Map<Integer, Circle> liaisonToms = new HashMap<>();
+	private Thread threadCircle;
 
 	public PlayInRythmController() {
 		System.out.println("PlayInRythmController initialized.");
@@ -68,6 +62,14 @@ public class PlayInRythmController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		liaisonToms.put(38, this.caisseBasGauche);
+		liaisonToms.put(43, this.caisseHautDroite);
+		liaisonToms.put(42, this.cymbaleBasGauche);
+		liaisonToms.put(50, this.caisseHautGauche);
+		liaisonToms.put(41, this.caisseBasDroite);
+		liaisonToms.put(49, this.cymbaleGauche);
+		liaisonToms.put(51, this.cymbaleDroite);
+		
 		kickDistance.put(int1, caisseBasGauche.getLayoutY() - caisseBasGauche.getRadius());
 		kickDistance.put(int2, caisseHautDroite.getLayoutY() - caisseHautDroite.getRadius());
 		kickDistance.put(int3, cymbaleBasGauche.getLayoutY() - cymbaleBasGauche.getRadius());
@@ -76,7 +78,8 @@ public class PlayInRythmController implements Initializable{
 		kickDistance.put(int6, cymbaleGauche.getLayoutY() - cymbaleGauche.getRadius());
 		kickDistance.put(int7, cymbaleDroite.getLayoutY() - cymbaleDroite.getRadius());
 		kickDistance.put(int8, pedale.getLayoutY() - pedale.getRadiusY());
-		printDistance();
+		//printDistance();
+
 	}
 
 	public void setMainApp(MainView mainApp) {
@@ -86,84 +89,73 @@ public class PlayInRythmController implements Initializable{
 	@FXML
 	void onClickCymbHautGauche(MouseEvent event) {
 		System.out.println("T'as cliqué sur la cymbale en haut à gauche");
-		Circle circle = makeCircle(cymbaleGauche, 0.6);
-		moveShape(circle, cymbaleGauche, fondPlayRythm);
-		// moveCircle(circle, cymbaleGauche);
 	}
 
 	@FXML
 	void onClickCymbHautDroite(MouseEvent event) {
 		System.out.println("T'as cliqué sur la cymbale en haut à droite");
-		Circle circle = makeCircle(cymbaleDroite, 0.65);
-		moveCircle(circle, cymbaleDroite);
 	}
 
 	@FXML
 	void onClickCymbBasGauche(MouseEvent event) {
 		System.out.println("T'as cliqué sur la cymbale en bas à gauche");
-		Circle circle = makeCircle(cymbaleBasGauche, 0.7);
-		moveCircle(circle, cymbaleBasGauche);
 	}
 
 	@FXML
 	void onClickCaisseBasGauche(MouseEvent event) {
 		System.out.println("T'as cliqué sur la caisse en bas à gauche : ");
-		Circle circle = makeCircle(caisseBasGauche, 0.75);
-		moveCircle(circle, caisseBasGauche);
 	}
 
 	@FXML
 	void onClickCaisseBasDroite(MouseEvent event) {
 		System.out.println("T'as cliqué sur la caisse en bas à droite");
-		Circle circle = makeCircle(caisseBasDroite, 0.8);
-		moveCircle(circle, caisseBasDroite);
 	}
 
 	@FXML
 	void onClickCaisseHautGauche(MouseEvent event) {
 		System.out.println("T'as cliqué sur la caisse en haut à gauche");
-		Circle circle = makeCircle(caisseHautGauche, 0.85);
-		moveCircle(circle, caisseHautGauche);
 	}
 
 	@FXML
 	void onClickCaisseHautDroite(MouseEvent event) {
 		System.out.println("T'as cliqué sur la caisse en haut à droite");
-		Circle circle = makeCircle(caisseHautDroite, 0.9);
-		moveCircle(circle, caisseHautDroite);
 	}
 
 	@FXML
 	void onClickPedale(MouseEvent event) {
 		System.out.println("T'as cliqué sur la pédale");
-		Ellipse ellipse = makeEllipse(pedale);
-		moveEllipse(ellipse);
 	}
 
 	@FXML
 	void onClickMenu(MouseEvent event) {
 		this.mainApp.showMenuView(this.prevStage);
-		// myController.setScreen(MainView.MenuViewID);
+		threadCircle.interrupt();
+	}
+	
+	@FXML
+	void onClickPlay(MouseEvent event) {
+		threadCircle = new Thread (new ThreadCircle(this, this.kickDistance, this.liaisonToms, this.pedale));
+		threadCircle.start();
 	}
 
-	private Circle makeCircle(Circle target, double opacity) {
+	/*public Circle makeCircle(Circle target, double opacity) {
 		double x = target.getLayoutX();
 		double radius = target.getRadius();
 		Circle circle = new Circle(x, radius, radius, Color.gray(opacity, 0.5));
 		circle.setEffect(new Lighting());
-		
+
 		circle.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-				if (circleInTarget(target, circle)) {
-					circle.setStroke(Color.RED);
-					System.out.println("Circle in target");
-				}
-			});
-		
+			if (circleInTarget(target, circle)) {
+				circle.setStroke(Color.RED);
+				System.out.println("Circle in target");
+			}
+		});
+
 		fondPlayRythm.getChildren().add(circle);
 		return circle;
 	}
-    
-	private Ellipse makeEllipse(Ellipse target) {
+
+	public Ellipse makeEllipse(Ellipse target) {
 		double x = target.getLayoutX();
 		double radiusX = target.getRadiusX();
 		double radiusY = target.getRadiusY();
@@ -171,86 +163,87 @@ public class PlayInRythmController implements Initializable{
 		ellipse.setFill(Color.rgb(192, 192, 192, 0.2));
 		ellipse.setEffect(new Lighting());
 		ellipse.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-				if (ellipseInTarget(target, ellipse)) {
-					ellipse.setStroke(Color.RED);
-					System.out.println("Ellipse in target");
-				}
-			});
-		
+			if (ellipseInTarget(target, ellipse)) {
+				ellipse.setStroke(Color.RED);
+				System.out.println("Ellipse in target");
+			}
+		});
+
 		fondPlayRythm.getChildren().add(ellipse);
 		return ellipse;
 	}
 
-	private void moveCircle(Circle circle, Circle target){
-	    Path path = new Path();
-	    path.getElements().add(new MoveTo(circle.getCenterX(),circle.getCenterY()));
-	    path.getElements().add(new VLineTo(target.getLayoutY())); //Distance (le centre du rond cible)
-	    PathTransition pathTransition = new PathTransition();
-	    pathTransition.setDuration(Duration.millis(1000)); //Temps (en ms)
-	    pathTransition.setPath(path);
-	    pathTransition.setNode(circle);
-	    pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-	    pathTransition.play();
-	    pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				fondPlayRythm.getChildren().remove(circle);
-			}
-		});
-	}
-
-	private void moveEllipse(Ellipse ellipse){
-	    Path path = new Path();
-	    path.getElements().add(new MoveTo(ellipse.getCenterX(),ellipse.getCenterY()));
-	    path.getElements().add(new VLineTo(pedale.getLayoutY())); //Distance (pédale cible)
-	    PathTransition pathTransition = new PathTransition();
-	    pathTransition.setDuration(Duration.millis(1000)); //Temps (en ms)
-	    pathTransition.setPath(path);
-	    pathTransition.setNode(ellipse);
-	    pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-	    pathTransition.play();
-		pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				fondPlayRythm.getChildren().remove(ellipse);
-			}
-		});
-	}
-
-	private void moveShape(Shape shape, Shape target, Pane parent){
+	public PathTransition moveCircle(Circle circle, Circle target){
 		Path path = new Path();
-		path.getElements().add(new MoveTo(shape.getLayoutX(),shape.getLayoutY()));
-		path.getElements().add(new VLineTo(target.getLayoutY())); //Distance (pédale cible)
+		path.getElements().add(new MoveTo(circle.getCenterX(),circle.getCenterY()));
+		path.getElements().add(new VLineTo(target.getLayoutY())); //Distance (le centre du rond cible)
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(1000)); //Temps (en ms)
 		pathTransition.setPath(path);
-		pathTransition.setNode(shape);
+		pathTransition.setNode(circle);
 		pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 		pathTransition.play();
+		return pathTransition;
+	}
+
+	public PathTransition moveEllipse(Ellipse ellipse){
+		Path path = new Path();
+		path.getElements().add(new MoveTo(ellipse.getCenterX(),ellipse.getCenterY()));
+		path.getElements().add(new VLineTo(pedale.getLayoutY())); //Distance (pédale cible)
+		PathTransition pathTransition = new PathTransition();
+		pathTransition.setDuration(Duration.millis(1000)); //Temps (en ms)
+		pathTransition.setPath(path);
+		pathTransition.setNode(ellipse);
+		pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+		pathTransition.play();
+		return pathTransition;
+
+	}
+
+	private void removeCircle(PathTransition pathTransition, Shape sh){
 		pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				parent.getChildren().remove(shape);
+				fondPlayRythm.getChildren().remove(sh);
 			}
 		});
+
 	}
 
-	
 	public boolean circleInTarget(Circle target, Circle circle2){ 
 		return target.getBoundsInParent().intersects(circle2.getBoundsInParent());
 	}
 
 	public boolean ellipseInTarget(Ellipse target, Ellipse ellipse){ 
 		return target.getBoundsInParent().intersects(ellipse.getBoundsInParent()); 
-	}
-	
+	}*/
+
 	public Double getDistance(int key){
 		return kickDistance.get(key);
 	}
-	
+
 	public void printDistance(){
 		for(int i : kickDistance.keySet()){
 			System.out.println(i + ": Valeur " + kickDistance.get(i));
 		}
 	}
+	
+	public Ellipse getPedale(){
+		return pedale;
+	}
+	
+	public void addShape(Shape e){
+		if(e == null){
+			System.out.println("NUUUUUUUUUUUUUUULLLLLLLLLLL");
+		}
+		else{
+			fondPlayRythm.getChildren().add(e);
+		}
+	}
+	
+	public void removeShape(Shape e){
+		fondPlayRythm.getChildren().remove(e);
+	}
+
+
 }

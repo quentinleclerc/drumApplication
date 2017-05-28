@@ -17,6 +17,14 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 		this.name = name;
 	}
 	
+	public SoundRecord(String fileImported, ArrayList<Event> events) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public SoundRecord() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public long getMinInter(){
 		ArrayList<Long> inter = getIntervales();
 		long min = Long.MAX_VALUE;
@@ -70,8 +78,7 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 		}
 
 	}
-
-		
+  
 //	public static void main(String[] args) {
 //		// TODO Auto-generated method stub
 //		System.out.println("Translator de track ");

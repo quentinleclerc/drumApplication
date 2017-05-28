@@ -169,7 +169,7 @@ public class MainView extends Application {
     public ArrayList<SoundRecord> createRecords() {
         ArrayList<SoundRecord> rec = new ArrayList<SoundRecord>();
 
-        SoundRecord macarena = new SoundRecord("Macarena");
+        SoundRecord macarena = new SoundRecord();
         Event event0 = new Event(500,50, 100);
         Event event2 = new Event(1000, 38, 100);
         Event event4 = new Event(1500, 50, 100);
@@ -180,7 +180,7 @@ public class MainView extends Application {
         macarena.addEvent(event6);
         rec.add(macarena);
 
-        SoundRecord EatSleepRaveRepeat = new SoundRecord("EatSleepRaveRepeat");
+        SoundRecord EatSleepRaveRepeat = new SoundRecord();
         Event e1 = new Event(200, KICK, 100);
         Event e2 = new Event(400, FLOOR_TOM, 100);
         Event e3 = new Event(600, SNARE, 100);
@@ -201,7 +201,7 @@ public class MainView extends Application {
 
         rec.add(EatSleepRaveRepeat);
 
-        SoundRecord test = new SoundRecord("Facile");
+        SoundRecord test = new SoundRecord();
         Event e10 = new Event(400, 38, 100);
         Event e20 = new Event(800, 38, 100);
         Event e30 = new Event(1000, 41, 100);

@@ -2,8 +2,10 @@ package midi;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Track;
@@ -11,14 +13,19 @@ import javax.sound.midi.Track;
 import player.Drummer;
 
 public class CerclesRepresentation extends ArrayList<Event>{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final SoundRecord cerclesSong;
 	private final TempsCercles mapTemps; 
 
-	public CerclesRepresentation(SoundRecord song, HashMap<Integer,Integer> mapDistance) {
+	public CerclesRepresentation(SoundRecord song, Map<Integer, Double> kickDistance) {
 		super();
-		this.mapTemps=new TempsCercles(mapDistance, 1);
+		this.mapTemps = new TempsCercles(kickDistance, 0.5F);
 		this.cerclesSong=song;
 		buildCercleListe();
+		Collections.sort(this);
 	}
 
 	private void buildCercleListe() {
@@ -38,14 +45,14 @@ public class CerclesRepresentation extends ArrayList<Event>{
 		}
 	}
 	
+	
 	public SoundRecord getCerclesSong() {
 		return cerclesSong;
 	}
 
-
 	
-	public static void main(String[] args) {
-		HashMap<Integer,Integer> mapDistance = new HashMap<Integer,Integer>();
+	/*public static void main(String[] args) {
+		HashMap<Integer,Double> mapDistance = new HashMap<Integer,Double>();
 		mapDistance.put(Drummer.KICK, 130);
 		mapDistance.put(Drummer.CRASH, 80);
 		mapDistance.put(Drummer.FLOOR_TOM, 100);
@@ -61,6 +68,6 @@ public class CerclesRepresentation extends ArrayList<Event>{
 		
 		CerclesRepresentation cercles = new CerclesRepresentation(song, mapDistance);
 		System.out.println(cercles);
-	}
+	}*/
 
 }

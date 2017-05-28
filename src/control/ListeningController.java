@@ -240,7 +240,6 @@ public class ListeningController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
