@@ -1,4 +1,4 @@
-package control;
+package control_view;
 
 import javafx.fxml.Initializable;
 import java.net.URL;
@@ -16,8 +16,6 @@ public class MenuController implements Initializable {
 	Button playFree;
 	@FXML
 	Button listening;
-	@FXML
-	Button playRythm;
 
 	private Stage prevStage;
 	private MainView mainApp;
@@ -42,19 +40,11 @@ public class MenuController implements Initializable {
 	@FXML
 	public void onPlayMidi() {
 		this.mainApp.showPlayMidiView(this.prevStage);
-		// myController.setScreen(MainView.PlayMidiID);
 	}
 
 	@FXML
 	public void onListening() {
 		this.mainApp.showListeningView(this.prevStage);
-		// myController.setScreen(MainView.ListeningID);
-	}
-	
-	@FXML
-	public void onPlayRythm() {
-		this.mainApp.showPlayInRythmView(this.prevStage);
-		// myController.setScreen(MainView.ListeningID);
 	}
 
 	public void setMainApp(MainView mainApp) {

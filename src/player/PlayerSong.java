@@ -11,6 +11,7 @@ public class PlayerSong implements Runnable{
 
 	private SoundRecord song ;
 	private Drummer drum;
+	private Thread threadPlaying;
 
 	public PlayerSong(SoundRecord song) {
 		this.drum = new Drummer();
@@ -18,7 +19,12 @@ public class PlayerSong implements Runnable{
 	}
 
 	public void playSong(){
-		new Thread(this).start();
+		this.threadPlaying = new Thread(this);
+		this.threadPlaying.start();
+	}
+
+	public void stopSong(){
+		this.threadPlaying.interrupt();
 	}
 
 	public void run() {
@@ -43,15 +49,6 @@ public class PlayerSong implements Runnable{
 		int note = event.getNote();
 		int velocity = event.getVelocity();
 		drum.noteOn(note, velocity);
-	}
-
-	public static void main(String[] args) {
-
-		MidiFileToSong translator = new MidiFileToSong("test.mid",3F,0);
-		SoundRecord song = translator.getSong();
-		System.out.println(song);
-		PlayerSong playerSong = new PlayerSong(song);
-		playerSong.playSong();
 	}
 
 }

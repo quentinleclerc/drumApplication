@@ -4,8 +4,6 @@ import midi.Event;
 import midi.Scores;
 import midi.SoundRecord;
 
-import java.util.ArrayList;
-
 import static java.lang.Thread.sleep;
 
 public class NoteListenerPeriodicThread implements Runnable, NoteChannel {

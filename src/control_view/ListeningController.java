@@ -1,5 +1,7 @@
-package control;
+package control_view;
 
+import control.FilesController;
+import control.NoteListenerPeriodicThread;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
 import javafx.util.StringConverter;
@@ -19,21 +24,36 @@ import midi.SoundRecord;
 
 import network.UDP_Server;
 
-import player.CustomSynthesizer;
 import player.Drummer;
-
-import player.MidiPlayer;
 import player.PlayerSong;
+import shapes.ThreadCircle;
 import views.MainView;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ListeningController implements Initializable {
 
+    @FXML
+    private Circle caisseBasGauche;
+    @FXML
+    private Circle caisseHautDroite;
+    @FXML
+    private Circle cymbaleBasGauche;
+    @FXML
+    private Circle caisseHautGauche;
+    @FXML
+    private Circle caisseBasDroite;
+    @FXML
+    private Circle cymbaleGauche;
+    @FXML
+    private Circle cymbaleDroite;
+    @FXML
+    private Ellipse pedale;
     @FXML
     private Button backToMenu;
     @FXML
@@ -45,7 +65,7 @@ public class ListeningController implements Initializable {
     @FXML
     private Button stopTraining;
     @FXML
-    private Pane pane;
+    private Pane fondPlayFree;
     @FXML
     private Button playSong;
     @FXML
@@ -62,6 +82,7 @@ public class ListeningController implements Initializable {
     private Label scoreLabel;
 
     private Stage prevStage;
+
     private MainView mainApp;
 
     private UDP_Server server;
@@ -80,11 +101,20 @@ public class ListeningController implements Initializable {
 
     private Scores scoreManager;
 
+    private Thread threadCircle;
+
+    private Map<Integer, Double> kickDistance;
+
+    private Map<Integer, Circle> liaisonToms;
+
+    private PlayerSong player;
 
     public ListeningController() {
         System.out.println("Listening initialized.");
         this.training = false;
         this.looping = false;
+        this.kickDistance = new HashMap<>();
+        this.liaisonToms = new HashMap<>();
     }
 
     public void setPrevStage(Stage stage){
@@ -120,7 +150,27 @@ public class ListeningController implements Initializable {
 
         initializeSelectButtons();
         initializeCheckBox();
+        initializeMaps();
         // initializeDrummer();
+    }
+
+    private void initializeMaps() {
+        liaisonToms.put(Drummer.SNARE, this.caisseBasGauche);
+        liaisonToms.put(Drummer.MIDDLE_TOM, this.caisseHautDroite);
+        liaisonToms.put(Drummer.HITHAT, this.cymbaleBasGauche);
+        liaisonToms.put(Drummer.HIGH_TOM, this.caisseHautGauche);
+        liaisonToms.put(Drummer.FLOOR_TOM, this.caisseBasDroite);
+        liaisonToms.put(Drummer.CRASH, this.cymbaleGauche);
+        liaisonToms.put(Drummer.RIDE, this.cymbaleDroite);
+
+        kickDistance.put(Drummer.SNARE, caisseBasGauche.getLayoutY() - caisseBasGauche.getRadius());
+        kickDistance.put(Drummer.MIDDLE_TOM, caisseHautDroite.getLayoutY() - caisseHautDroite.getRadius());
+        kickDistance.put(Drummer.HITHAT, cymbaleBasGauche.getLayoutY() - cymbaleBasGauche.getRadius());
+        kickDistance.put(Drummer.HIGH_TOM, caisseHautGauche.getLayoutY() - caisseHautGauche.getRadius());
+        kickDistance.put(Drummer.FLOOR_TOM, caisseBasDroite.getLayoutY() - caisseBasDroite.getRadius());
+        kickDistance.put(Drummer.CRASH, cymbaleGauche.getLayoutY() - cymbaleGauche.getRadius());
+        kickDistance.put(Drummer.RIDE, cymbaleDroite.getLayoutY() - cymbaleDroite.getRadius());
+        kickDistance.put(Drummer.KICK, pedale.getLayoutY() - pedale.getRadiusY());
     }
 
     private void initializeCheckBox() {
@@ -129,10 +179,8 @@ public class ListeningController implements Initializable {
         loopCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (loopCheckBox.isSelected()) {
                 this.looping = true;
-                System.out.println(looping);
             } else {
                 this.looping = false;
-                System.out.println(looping);
             }
         });
     }
@@ -204,18 +252,6 @@ public class ListeningController implements Initializable {
         });
     }
 
-    /*
-    private void initializeDrummer() {
-        CustomSynthesizer cs = new CustomSynthesizer();
-        URL resource = getClass().getResource("/soundbanks/sdb.sf2");
-        String fileName = resource.getFile();
-        File file = new File(fileName);
-        cs.loadSoundbank(file);
-        this.drummer = new Drummer();
-        System.out.println("drummer bien initialise");
-    }
-    */
-
     @FXML
     void onClickMenu(MouseEvent event) {
         this.mainApp.showMenuView(this.prevStage);
@@ -256,6 +292,12 @@ public class ListeningController implements Initializable {
         this.noteListenerThread = new Thread(noteListener);
         this.noteListenerThread.start();
 
+        this.threadCircle = new Thread (new ThreadCircle(selectedRecord(),this, this.kickDistance, this.liaisonToms, this.pedale));
+        this.threadCircle.start();
+
+        this.onClickPlay(null);
+
+
         this.scoreManager.initializeSong(selectedRecord());
         // START LUIS
         // LOOPING boolean
@@ -266,11 +308,13 @@ public class ListeningController implements Initializable {
     void onClickStopTraining(MouseEvent event) {
         stopTraining.setDisable(true);
         startTraining.setDisable(false);
-
         this.training = false;
 
-
         String score = this.scoreManager.end_record();
+
+        this.threadCircle.interrupt();
+        System.out.println(this.player);
+        this.player.stopSong();
         this.scoreLabel.setText(score);
         this.scoreLabel.setVisible(true);
         System.out.println(score);
@@ -294,7 +338,6 @@ public class ListeningController implements Initializable {
             record = getSelectedItem();
         }
         else if (!fileImported.equals("")) {
-            ArrayList<Event> events = null;
             MidiFileToSong translator = new MidiFileToSong(fileImported, 1.5F, 0 );
             record = translator.getSong();
         }
@@ -306,12 +349,22 @@ public class ListeningController implements Initializable {
 
     @FXML
     void onClickPlay(MouseEvent event) {
-        Platform.runLater(() -> {
-            SoundRecord selected = selectedRecord();
-            PlayerSong player = new PlayerSong(selected);
-            player.playSong();
-        });
+        SoundRecord selected = selectedRecord();
+        this.player = new PlayerSong(selected);
+        this.player.playSong();
     }
 
+    public void addShape(Shape e){
+        if(e == null){
+            System.out.println("Shape is null");
+        }
+        else {
+            this.fondPlayFree.getChildren().add(e);
+        }
+    }
+
+    public void removeShape(Shape e) {
+        this.fondPlayFree.getChildren().remove(e);
+    }
 
 }

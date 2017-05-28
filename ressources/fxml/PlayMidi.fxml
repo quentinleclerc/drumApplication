@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayMidi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.PlayMidiController">
+<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayMidi.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.PlayMidiController">
 <children>
     <Button fx:id="playFree" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER">
         <font>

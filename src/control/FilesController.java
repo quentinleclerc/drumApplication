@@ -1,6 +1,5 @@
 package control;
 
-import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -11,8 +10,7 @@ public class FilesController {
 
     }
 
-    @FXML
-     String importFile() {
+    public String importFile() {
 
         File musicFile;
         String filePath = "";

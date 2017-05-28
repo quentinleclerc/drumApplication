@@ -1,12 +1,8 @@
 package midi;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Track;
 
 public class SoundRecord extends  ArrayList<Event> implements Serializable {
 
@@ -15,14 +11,6 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 	public SoundRecord(String name) {
 		super();
 		this.name = name;
-	}
-	
-	public SoundRecord(String fileImported, ArrayList<Event> events) {
-		// TODO Auto-generated constructor stub
-	}
-
-	public SoundRecord() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public long getMinInter(){
@@ -49,12 +37,7 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 		}
 		return list;
 	}
-	
-	public void clean(){
-		this.clear();
-		
-	}
-	
+
 	public void addEvent(Event event){
 		this.add(event);
 	}
@@ -78,15 +61,5 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 		}
 
 	}
-  
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		System.out.println("Translator de track ");
-//		MidiFileToSong translator = new MidiFileToSong(new File("test.mid"),1.0F,0);
-//		SoundRecord song = translator.getSong();
-//		System.out.println(song);
-//		CerclesRepresentation cr = new CerclesRepresentation(song, mapDistance)
-//		translator.setDelay(100.0);
-//	}
 
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Ellipse?>
 
-<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="683.0" stylesheets="@/css/Listening.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ListeningController">
+<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="683.0" stylesheets="@/css/Listening.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.ListeningController">
 <children>
     <Button fx:id="backToMenu" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER">
         <font>

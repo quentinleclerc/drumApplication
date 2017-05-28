@@ -1,6 +1,6 @@
 package views;
 
-import control.*;
+import control_view.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +12,7 @@ import midi.Event;
 import midi.Scores;
 import midi.SoundRecord;
 import network.UDP_Server;
-import player.MidiPlayer;
+import player.Drummer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,13 +23,6 @@ public class MainView extends Application {
     private static String PlayFreeViewFXML = "/fxml/PlayFreeView.fxml";
     private static String PlayMidiFXML = "/fxml/PlayMidi.fxml";
     private static String ListeningFXML = "/fxml/Listening.fxml";
-    private static String PlayInRythmFXML = "/fxml/PlayInRythm.fxml";
-
-    private static final int KICK = 35; // pied
-    private static final int SNARE = 38; // gauche
-    private static final int HIGH_TOM = 50; // millieu gauche
-    private static final int MIDDLE_TOM = 43; // millieu droite
-    private static final int FLOOR_TOM = 41; // droite
 
     private static Stage primaryStage;
 
@@ -141,35 +134,11 @@ public class MainView extends Application {
             e.printStackTrace();
         }
     }
-    
-    public void showPlayInRythmView(Stage prevStage) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("Play In Rythm View");
-            Pane myPane;
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(MainView.PlayInRythmFXML));
 
-            myPane = loader.load();
-
-            Scene scene = new Scene(myPane);
-            stage.setScene(scene);
-
-            PlayInRythmController controller = loader.getController();
-            controller.setPrevStage(stage);
-            controller.setMainApp(this);
-
-            prevStage.close();
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList<SoundRecord> createRecords() {
+    private ArrayList<SoundRecord> createRecords() {
         ArrayList<SoundRecord> rec = new ArrayList<SoundRecord>();
 
-        SoundRecord macarena = new SoundRecord();
+        SoundRecord macarena = new SoundRecord("Macarena");
         Event event0 = new Event(500,50, 100);
         Event event2 = new Event(1000, 38, 100);
         Event event4 = new Event(1500, 50, 100);
@@ -180,15 +149,15 @@ public class MainView extends Application {
         macarena.addEvent(event6);
         rec.add(macarena);
 
-        SoundRecord EatSleepRaveRepeat = new SoundRecord();
-        Event e1 = new Event(200, KICK, 100);
-        Event e2 = new Event(400, FLOOR_TOM, 100);
-        Event e3 = new Event(600, SNARE, 100);
-        Event e4 = new Event(800, HIGH_TOM, 100);
-        Event e5 = new Event(1000, KICK, 100);
-        Event e6 = new Event(1300, KICK, 100);
-        Event e7 = new Event(1600, KICK, 100);
-        Event e8 = new Event(1900, KICK, 100);
+        SoundRecord EatSleepRaveRepeat = new SoundRecord("EatSleepRaveRepeat");
+        Event e1 = new Event(200, Drummer.KICK, 100);
+        Event e2 = new Event(400, Drummer.FLOOR_TOM, 100);
+        Event e3 = new Event(600, Drummer.SNARE, 100);
+        Event e4 = new Event(800, Drummer.HIGH_TOM, 100);
+        Event e5 = new Event(1000, Drummer.KICK, 100);
+        Event e6 = new Event(1300, Drummer.KICK, 100);
+        Event e7 = new Event(1600, Drummer.KICK, 100);
+        Event e8 = new Event(1900, Drummer.KICK, 100);
 
         EatSleepRaveRepeat.addEvent(e1);
         EatSleepRaveRepeat.addEvent(e2);
@@ -201,7 +170,7 @@ public class MainView extends Application {
 
         rec.add(EatSleepRaveRepeat);
 
-        SoundRecord test = new SoundRecord();
+        SoundRecord test = new SoundRecord("Test");
         Event e10 = new Event(400, 38, 100);
         Event e20 = new Event(800, 38, 100);
         Event e30 = new Event(1000, 41, 100);

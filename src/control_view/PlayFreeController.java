@@ -1,4 +1,4 @@
-package control;
+package control_view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
