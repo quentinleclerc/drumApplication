@@ -29,7 +29,7 @@ public class Drummer {
 		URL resource = getClass().getResource(bank);
 		String fileName = resource.getFile();
 		File file = new File(fileName);
-		synthesizer.loadSoundbank(file);
+		synthesizer.loadSoundbank(file.getAbsoluteFile());
 	}
 
 

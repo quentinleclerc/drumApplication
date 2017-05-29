@@ -338,12 +338,13 @@ public class ListeningController implements Initializable {
             record = getSelectedItem();
         }
         else if (!fileImported.equals("")) {
-            MidiFileToSong translator = new MidiFileToSong(fileImported, 1.5F, 0 );
+            MidiFileToSong translator = new MidiFileToSong(fileImported, 8F, 10000 );
             record = translator.getSong();
         }
         else {
             record = null;
         }
+        System.out.println("Coucou" + record);
         return record;
     }
 
