@@ -29,6 +29,11 @@ public class PlayerSong implements Runnable{
 
 	public void run() {
 		int i=0;
+		try {
+			Thread.sleep(this.song.get(0).getTemps());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		for (i = 0; i < song.size()-1; i++) {
 			Event event = this.song.get(i);
 			double timestamp = event.getTemps();
@@ -36,7 +41,8 @@ public class PlayerSong implements Runnable{
 			int velocity = event.getVelocity();
 			drum.noteOn(note, velocity);
 			try {
-				Thread.sleep((long)(this.song.get(i+1).getTemps() - timestamp));
+				long delay = (long)(this.song.get(i+1).getTemps() - timestamp);
+				Thread.sleep(delay);
 			} catch (ArrayIndexOutOfBoundsException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {

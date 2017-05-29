@@ -11,6 +11,7 @@ import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Track;
 
 import player.Drummer;
+import player.PlayerSong;
 
 public class CerclesRepresentation extends ArrayList<Event>{
 	/**
@@ -40,34 +41,36 @@ public class CerclesRepresentation extends ArrayList<Event>{
 				this.add(new Event(timeStamp, note, velocity));
 			}
 			else {
-				System.out.println("Note non reconnue : " + note);
+//				System.out.println("Note non reconnue : " + note);
 			}
 		}
 	}
-	
-	
+
+
 	public SoundRecord getCerclesSong() {
 		return cerclesSong;
 	}
 
-	
-	/*public static void main(String[] args) {
-		HashMap<Integer,Double> mapDistance = new HashMap<Integer,Double>();
-		mapDistance.put(Drummer.KICK, 130);
-		mapDistance.put(Drummer.CRASH, 80);
-		mapDistance.put(Drummer.FLOOR_TOM, 100);
-		mapDistance.put(Drummer.SNARE, 100);
-		mapDistance.put(Drummer.HIGH_TOM, 100);
-		mapDistance.put(Drummer.MIDDLE_TOM, 300);
-		mapDistance.put(Drummer.RIDE, 100);
-		mapDistance.put(Drummer.SNARE, 100);
 
-		MidiFileToSong translator = new MidiFileToSong("test.mid",1.2F,0);
+	public static void main(String[] args) {
+		HashMap<Integer,Double> mapDistance = new HashMap<Integer,Double>();
+		mapDistance.put(Drummer.KICK, 130.0);
+		mapDistance.put(Drummer.CRASH, 80.0);
+		mapDistance.put(Drummer.FLOOR_TOM, 100.0);
+		mapDistance.put(Drummer.SNARE, 100.0);
+		mapDistance.put(Drummer.HIGH_TOM, 100.0);
+		mapDistance.put(Drummer.MIDDLE_TOM, 300.0);
+		mapDistance.put(Drummer.RIDE, 100.0);
+		mapDistance.put(Drummer.SNARE, 100.0);
+
+		MidiFileToSong translator = new MidiFileToSong("midi.mid",1.2F,0);
 		SoundRecord song = translator.getSong();
+		PlayerSong p = new PlayerSong(song);
+		p.playSong();
 		System.out.println(song);
-		
+
 		CerclesRepresentation cercles = new CerclesRepresentation(song, mapDistance);
 		System.out.println(cercles);
-	}*/
+	}
 
 }

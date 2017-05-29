@@ -72,7 +72,11 @@ public class ThreadCircle implements Runnable {
 
 	public void run() {
 		int i;
-
+		try {
+			Thread.sleep(this.song.get(0).getTemps());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		for (i = 0; i < cercleRepresentation.size()-1; i++) {
 			Event event = cercleRepresentation.get(i);
 			double timestamp = event.getTemps();
