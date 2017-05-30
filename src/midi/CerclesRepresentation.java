@@ -66,7 +66,7 @@ public class CerclesRepresentation extends ArrayList<Event>{
 		MidiFileToSong translator = new MidiFileToSong("midi.mid",1.2F,0);
 		SoundRecord song = translator.getSong();
 		PlayerSong p = new PlayerSong(song);
-		p.playSong();
+		p.playSong(false);
 		System.out.println(song);
 
 		CerclesRepresentation cercles = new CerclesRepresentation(song, mapDistance);

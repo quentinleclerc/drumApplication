@@ -6,23 +6,23 @@ import control.NoteChannel;
 import midi.Event;
 import midi.SoundRecord;
 
-public class SongWriter implements NoteChannel{
+public class SongWriter implements NoteChannel {
 	private SoundRecord song;
 	private Date begin;
-	public SongWriter(){
+
+	public SongWriter() {
 		this.song=new SoundRecord("taboun");
 		this.begin = new Date();
 	}
-	
-	public void sendNote(long time, int note, int velocity) {
-		}
-	
+
 	public SoundRecord getSong(){
 		return this.song;
 	}
+
 	public void reset(){
 		begin = new Date();
 	}
+
 	public void saveSong(){
 		Serializer sr = new Serializer();
 		sr.Serialize(this.song, "hh");

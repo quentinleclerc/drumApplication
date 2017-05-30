@@ -18,8 +18,8 @@ public class Serializer {
 
 	public void Serialize(SoundRecord song, String name){
 		try {
-			FileOutputStream fos= new FileOutputStream(name);
-			ObjectOutputStream oos= new ObjectOutputStream(fos);
+			FileOutputStream fos = new FileOutputStream(name);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(song);
 			oos.close();
 			fos.close();
@@ -29,7 +29,7 @@ public class Serializer {
 	}
 
 	public SoundRecord deSerialize(String name){
-		SoundRecord song= null;
+		SoundRecord song = null;
 		try
 		{
 			FileInputStream fis = new FileInputStream(name);

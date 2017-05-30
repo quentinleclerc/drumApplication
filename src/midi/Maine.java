@@ -114,7 +114,7 @@ public class Maine {
 		
 		example.add(new Event(4700, HIGH_TOM, 100));
 		example.add(new Event(5000, FLOOR_TOM, 100));
-		System.out.println(sc.initializeSong(example, 0));
+		System.out.println(sc.initializeSong(example, false));
 	}
 
 
