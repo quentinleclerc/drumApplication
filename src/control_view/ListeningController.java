@@ -109,6 +109,7 @@ public class ListeningController implements Initializable {
 
     private PlayerSong player;
 
+    private SoundRecord song;
     public ListeningController() {
         System.out.println("Listening initialized.");
         this.training = false;
@@ -285,20 +286,22 @@ public class ListeningController implements Initializable {
 
         this.training = true;
         this.scoreLabel.setVisible(false);
-
-        this.noteListener = new NoteListenerPeriodicThread(selectedRecord(), this.scoreManager);
+        this.song= selectedRecord();
+        this.noteListener = new NoteListenerPeriodicThread(song, this.scoreManager);
         this.server.setListener(noteListener);
-
+        System.out.println("> " + this.getClass() + this.song);
         this.noteListenerThread = new Thread(noteListener);
         this.noteListenerThread.start();
 
-        this.threadCircle = new Thread (new ThreadCircle(selectedRecord(),this, this.kickDistance, this.liaisonToms, this.pedale));
+        this.threadCircle = new Thread (new ThreadCircle(song,this, this.kickDistance, this.liaisonToms, this.pedale));
         this.threadCircle.start();
+       
 
         this.onClickPlay(null);
 
 
-        this.scoreManager.initializeSong(selectedRecord(),1);
+
+        this.scoreManager.initializeSong(song,1);
         // START LUIS
         // LOOPING boolean
 
@@ -344,13 +347,13 @@ public class ListeningController implements Initializable {
         else {
             record = null;
         }
-        System.out.println("Coucou" + record);
+//        System.out.println("Coucou" + record);
         return record;
     }
 
     @FXML
     void onClickPlay(MouseEvent event) {
-        SoundRecord selected = selectedRecord();
+        SoundRecord selected = this.song;
         this.player = new PlayerSong(selected);
         this.player.playSong(looping);
     }

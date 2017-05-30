@@ -44,7 +44,8 @@ public class ThreadCircle implements Runnable {
 
 	private void initializeCirclesRep(){
 		this.cercleRepresentation = new CerclesRepresentation(this.song, this.kickDistance);
-		System.out.println(cercleRepresentation);
+		System.out.println("> " + this.getClass() + this.cercleRepresentation);
+		//		System.out.println(cercleRepresentation);
 
 	}
 
@@ -55,7 +56,7 @@ public class ThreadCircle implements Runnable {
 	public void removeEllipse(Ellipse sh){
 		this.liaisonEllipsesToPath.get(sh).setOnFinished(event -> Platform.runLater(() -> controller.removeShape(sh)));
 	}
-	
+
 	private void moveToTom(int note){
 		if(note == 35){
 			Ellipse pedaleTemp = hc.makeEllipse(pedale);
@@ -71,6 +72,7 @@ public class ThreadCircle implements Runnable {
 	}
 
 	public void run() {
+
 		boolean running = true;
 		while(running){
 			int i = 0;
@@ -98,6 +100,7 @@ public class ThreadCircle implements Runnable {
 				}
 			}
 			//last event
+
 			Event event = cercleRepresentation.get(i);
 			int note = event.getNote();
 			// int velocity = event.getVelocity();
@@ -111,12 +114,13 @@ public class ThreadCircle implements Runnable {
 			}
 		}
 	}
-	
+
 	public CerclesRepresentation getCercleRepresentation(){
 		return this.cercleRepresentation;
 	}
-	
+
 	private void deleteCircles(){
+
 	    Iterator<Entry<Circle, PathTransition>> it = liaisonCirclesToPath.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry<Circle, PathTransition> pair = (Map.Entry<Circle, PathTransition>)it.next();
@@ -124,9 +128,11 @@ public class ThreadCircle implements Runnable {
 	        it.remove(); // avoids a ConcurrentModificationException
 	        Platform.runLater(() -> controller.removeShape(c));
 	    }
+
 	}
-	
+
 	private void deleteEllipses(){
+
 	    Iterator<Entry<Ellipse, PathTransition>> it = liaisonEllipsesToPath.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry<Ellipse, PathTransition> pair = (Map.Entry<Ellipse, PathTransition>)it.next();
