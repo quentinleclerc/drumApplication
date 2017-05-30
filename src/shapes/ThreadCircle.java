@@ -46,7 +46,8 @@ public class ThreadCircle implements Runnable {
 
 	private void initializeCirclesRep(){
 		this.cercleRepresentation = new CerclesRepresentation(this.song, this.kickDistance);
-		System.out.println(cercleRepresentation);
+		System.out.println("> " + this.getClass() + this.cercleRepresentation);
+		//		System.out.println(cercleRepresentation);
 
 	}
 
@@ -57,7 +58,7 @@ public class ThreadCircle implements Runnable {
 	public void removeEllipse(Ellipse sh){
 		this.liaisonEllipsesToPath.get(sh).setOnFinished(event -> Platform.runLater(() -> controller.removeShape(sh)));
 	}
-	
+
 	private void moveToTom(int note){
 		if(note == 35){
 			Ellipse pedaleTemp = hc.makeEllipse(pedale);
@@ -76,6 +77,7 @@ public class ThreadCircle implements Runnable {
 		int i;
 		try {
 			Thread.sleep(this.song.get(0).getTemps());
+//			System.out.println();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -101,29 +103,29 @@ public class ThreadCircle implements Runnable {
 		// int velocity = event.getVelocity();
 		moveToTom(note);
 	}
-	
+
 	public CerclesRepresentation getCercleRepresentation(){
 		return this.cercleRepresentation;
 	}
-	
+
 	private void deleteCircles(){
-	    Iterator it = liaisonCirclesToPath.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        Circle c = (Circle) pair.getKey();
-	        it.remove(); // avoids a ConcurrentModificationException
-	        Platform.runLater(() -> controller.removeShape(c));
-	    }
+		Iterator it = liaisonCirclesToPath.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
+			Circle c = (Circle) pair.getKey();
+			it.remove(); // avoids a ConcurrentModificationException
+			Platform.runLater(() -> controller.removeShape(c));
+		}
 	}
-	
+
 	private void deleteEllipses(){
-	    Iterator it = liaisonEllipsesToPath.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        Ellipse e = (Ellipse) pair.getKey();
-	        it.remove(); // avoids a ConcurrentModificationException
-	        Platform.runLater(() -> controller.removeShape(e));
-	    }
+		Iterator it = liaisonEllipsesToPath.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
+			Ellipse e = (Ellipse) pair.getKey();
+			it.remove(); // avoids a ConcurrentModificationException
+			Platform.runLater(() -> controller.removeShape(e));
+		}
 	}
-		
+
 }
