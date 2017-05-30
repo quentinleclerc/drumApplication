@@ -62,7 +62,6 @@ public class Scores {
 		int notes = 0;
 		long tempsDeb = 0;
 		for (int i = 0; i < original_song.size()-1; i++) {
-			System.out.println("ici1");
 			notes++;
 			note = original_song.get(i).getNote();
 			differentNote = (note != original_song.get(i+1).getNote());
@@ -70,7 +69,6 @@ public class Scores {
 			FollowingTime = (intervalles.get(i+1)) > intervalles_min.get(original_song.get(i+1).getNote()) || intervalles.get(i+1) >= 100;
 			more1Sec = (original_song.get(i+1).getTemps() - tempsDeb) > minIntervalle;
 			if (PrevTime && FollowingTime && notes > 4 && more1Sec){
-				System.out.println("ici2");
 				cutted.add((original_song.get(i+1).getTemps()+original_song.get(i).getTemps())/2);
 				notes = 0;
 				tempsDeb = (original_song.get(i+1).getTemps()+original_song.get(i).getTemps())/2;

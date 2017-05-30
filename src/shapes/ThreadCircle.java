@@ -91,7 +91,7 @@ public class ThreadCircle implements Runnable {
 				moveToTom(note);
 				i++;
 				try {
-						Thread.sleep((long)(cercleRepresentation.get(i+1).getTemps()-timestamp));
+						Thread.sleep((long)(cercleRepresentation.get(i+1).getTemps()-timestamp) / 2);
 				} catch (InterruptedException e) {
 					this.deleteTemporaryShapes();
 					running = false;
