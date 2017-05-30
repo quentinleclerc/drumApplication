@@ -338,7 +338,7 @@ public class ListeningController implements Initializable {
             record = getSelectedItem();
         }
         else if (!fileImported.equals("")) {
-            MidiFileToSong translator = new MidiFileToSong(fileImported, 8F, 10000 );
+            MidiFileToSong translator = new MidiFileToSong(fileImported, 4F, 2000 );
             record = translator.getSong();
         }
         else {
