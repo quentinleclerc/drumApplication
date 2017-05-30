@@ -19,7 +19,7 @@ public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
         this.scoreManager = scoreManager;
     }
 
-    public void setRecord() {
+    public void setRecord(SoundRecord record) {
         this.record = record;
     }
 

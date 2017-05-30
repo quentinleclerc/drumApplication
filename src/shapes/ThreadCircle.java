@@ -1,7 +1,9 @@
 package shapes;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import control_view.ListeningController;
 import javafx.animation.PathTransition;
@@ -72,7 +74,11 @@ public class ThreadCircle implements Runnable {
 
 	public void run() {
 		int i;
-
+		try {
+			Thread.sleep(this.song.get(0).getTemps());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		for (i = 0; i < cercleRepresentation.size()-1; i++) {
 			Event event = cercleRepresentation.get(i);
 			double timestamp = event.getTemps();
@@ -84,6 +90,8 @@ public class ThreadCircle implements Runnable {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
+				this.deleteCircles();
+				this.deleteEllipses();
 				Thread.currentThread().interrupt();
 			}
 		}
@@ -97,4 +105,25 @@ public class ThreadCircle implements Runnable {
 	public CerclesRepresentation getCercleRepresentation(){
 		return this.cercleRepresentation;
 	}
+	
+	private void deleteCircles(){
+	    Iterator it = liaisonCirclesToPath.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        Circle c = (Circle) pair.getKey();
+	        it.remove(); // avoids a ConcurrentModificationException
+	        Platform.runLater(() -> controller.removeShape(c));
+	    }
+	}
+	
+	private void deleteEllipses(){
+	    Iterator it = liaisonEllipsesToPath.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        Ellipse e = (Ellipse) pair.getKey();
+	        it.remove(); // avoids a ConcurrentModificationException
+	        Platform.runLater(() -> controller.removeShape(e));
+	    }
+	}
+		
 }

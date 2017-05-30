@@ -338,12 +338,13 @@ public class ListeningController implements Initializable {
             record = getSelectedItem();
         }
         else if (!fileImported.equals("")) {
-            MidiFileToSong translator = new MidiFileToSong(fileImported, 1.5F, 0 );
+            MidiFileToSong translator = new MidiFileToSong(fileImported, 4F, 2000 );
             record = translator.getSong();
         }
         else {
             record = null;
         }
+        System.out.println("Coucou" + record);
         return record;
     }
 
@@ -351,7 +352,7 @@ public class ListeningController implements Initializable {
     void onClickPlay(MouseEvent event) {
         SoundRecord selected = selectedRecord();
         this.player = new PlayerSong(selected);
-        this.player.playSong();
+        this.player.playSong(looping);
     }
 
     public void addShape(Shape e){
