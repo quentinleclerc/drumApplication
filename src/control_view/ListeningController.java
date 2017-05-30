@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -17,10 +18,7 @@ import javafx.stage.Stage;
 
 import javafx.util.StringConverter;
 
-import midi.Event;
-import midi.MidiFileToSong;
-import midi.Scores;
-import midi.SoundRecord;
+import midi.*;
 
 import network.UDP_Server;
 
@@ -80,6 +78,10 @@ public class ListeningController implements Initializable {
     private CheckBox loopCheckBox;
     @FXML
     private Label scoreLabel;
+    @FXML
+    private Button getStats;
+    @FXML
+    private Label statsLabel;
 
     private Stage prevStage;
 
@@ -286,19 +288,27 @@ public class ListeningController implements Initializable {
         this.training = true;
         this.scoreLabel.setVisible(false);
 
-        this.noteListener = new NoteListenerPeriodicThread(selectedRecord(), this.scoreManager);
+        SoundRecord record = selectedRecord();
+        ArrayList<Long> sleepTimes = this.scoreManager.initializeSong(record, looping);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        this.noteListener = new NoteListenerPeriodicThread(record, this.scoreManager, sleepTimes, looping);
         this.server.setListener(noteListener);
 
         this.noteListenerThread = new Thread(noteListener);
         this.noteListenerThread.start();
 
-        this.threadCircle = new Thread (new ThreadCircle(selectedRecord(),this, this.kickDistance, this.liaisonToms, this.pedale));
+        this.threadCircle = new Thread (new ThreadCircle(record,this, this.kickDistance, this.liaisonToms, this.pedale));
         this.threadCircle.start();
 
         this.onClickPlay(null);
+        this.noteListener.startTimer();
 
-
-        this.scoreManager.initializeSong(selectedRecord());
         // START LUIS
         // LOOPING boolean
 
@@ -311,6 +321,7 @@ public class ListeningController implements Initializable {
         this.training = false;
 
         String score = this.scoreManager.end_record();
+        System.out.println(this.scoreManager.getStats());
 
         this.threadCircle.interrupt();
         System.out.println(this.player);
@@ -344,7 +355,6 @@ public class ListeningController implements Initializable {
         else {
             record = null;
         }
-        System.out.println("Coucou" + record);
         return record;
     }
 
@@ -362,6 +372,64 @@ public class ListeningController implements Initializable {
         else {
             this.fondPlayFree.getChildren().add(e);
         }
+    }
+
+    @FXML
+    void onKeyPressed(KeyEvent event) {
+        int velocity = 100;
+        switch (event.getCode()) {
+            case SPACE :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.KICK, velocity, 0);
+                break;
+            case G :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.HIGH_TOM, velocity, 0);
+                break;
+            case H :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.MIDDLE_TOM, velocity, 0);
+                break;
+            case N :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.FLOOR_TOM, velocity, 0);
+                break;
+            case J :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.RIDE,velocity, 0);
+                break;
+            case F :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.CRASH,velocity, 0);
+                break;
+            case V :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.SNARE, velocity, 0);
+                break;
+            case C :
+                System.out.println(event.getCode());
+                noteListener.receivedNote(Drummer.HITHAT, velocity, 0);
+                break;
+            /*
+            case R :
+                noteListener.saveSong();
+                SoundRecord song = noteListener.getSong();
+                Merger merge =new Merger();
+                song = merge.merge(song, song);
+                noteListener.reset();
+                PlayerSong playerSong = new PlayerSong(song);
+                new Thread(playerSong).start();
+                break;
+            */
+            default:
+                // System.out.println(event.getCode());
+                break;
+        }
+    }
+
+    @FXML
+    void onGetStats(MouseEvent event) {
+        this.statsLabel.setText(this.scoreManager.getStats());
     }
 
     public void removeShape(Shape e) {

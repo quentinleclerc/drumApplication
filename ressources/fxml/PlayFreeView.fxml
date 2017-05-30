@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayFree.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.PlayFreeController">
+<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="450.0" prefWidth="628.0" stylesheets="@/css/PlayFree.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.PlayFreeController">
    <children>
       <ImageView fitHeight="369.0" fitWidth="600.0" layoutX="13.0" layoutY="40.0">
          <image>

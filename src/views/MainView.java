@@ -69,6 +69,7 @@ public class MainView extends Application {
             stage.setScene(scene);
 
             PlayFreeController controller = loader.getController();
+            controller.setScene(scene);
             controller.setPrevStage(stage);
             controller.setMainApp(this);
 
@@ -185,11 +186,26 @@ public class MainView extends Application {
         Event m2 = new Event(2000, 38, 100);
         Event m3 = new Event(3000, 38, 100);
         Event m4 = new Event(4000, 38, 100);
+        Event m5 = new Event(5000, 38, 100);
+        Event m6 = new Event(6000, 38, 100);
+        Event m7 = new Event(7000, 38, 100);
+        Event m8 = new Event(8000, 38, 100);
         metronome.add(m1);
         metronome.add(m2);
         metronome.add(m3);
         metronome.add(m4);
+        metronome.add(m5);
+        metronome.add(m6);
+        metronome.add(m7);
+        metronome.add(m8);
+
         rec.add(metronome);
+
+
+//        System.out.println(metronome.getSub(0, 890));
+  //      System.out.println(metronome.getSub(0, 1290));
+    //    System.out.println(metronome.getSub(1800, 4500));
+
 
         return rec;
     }

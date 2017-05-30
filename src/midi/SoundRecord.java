@@ -38,6 +38,17 @@ public class SoundRecord extends  ArrayList<Event> implements Serializable {
 		return list;
 	}
 
+	public SoundRecord getSub(long timeDeb, long timeEnd) {
+		int i;
+		SoundRecord sub = new SoundRecord("Sub_record");
+		for (i = 0; i < this.size(); i++) {
+			if (this.get(i).getTemps() > timeDeb && this.get(i).getTemps() < timeEnd) {
+				sub.add(this.get(i));
+			}
+		}
+		return sub;
+	}
+
 	public void addEvent(Event event){
 		this.add(event);
 	}

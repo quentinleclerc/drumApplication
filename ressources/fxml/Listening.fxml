@@ -12,35 +12,35 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Ellipse?>
 
-<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="683.0" stylesheets="@/css/Listening.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.ListeningController">
+<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="810.0" prefWidth="1149.0" stylesheets="@/css/Listening.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.ListeningController">
 <children>
     <Button fx:id="backToMenu" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER">
         <font>
             <Font size="16.0" />
         </font>
     </Button>
-      <Button fx:id="startButton" layoutX="19.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="208.0" text="Start listening to socket" textAlignment="CENTER">
+      <Button fx:id="startButton" layoutX="52.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="208.0" text="Start listening to socket" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="stopButton" layoutX="19.0" layoutY="607.0" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER">
+      <Button fx:id="stopButton" layoutX="52.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="startTraining" layoutX="243.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#onClickStartTraining" prefHeight="37.0" prefWidth="208.0" text="Start training" textAlignment="CENTER">
+      <Button fx:id="startTraining" layoutX="276.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#onClickStartTraining" prefHeight="37.0" prefWidth="208.0" text="Start training" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="stopTraining" layoutX="243.0" layoutY="607.0" mnemonicParsing="false" onMouseClicked="#onClickStopTraining" prefHeight="37.0" prefWidth="208.0" text="Stop training" textAlignment="CENTER">
+      <Button fx:id="stopTraining" layoutX="276.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#onClickStopTraining" prefHeight="37.0" prefWidth="208.0" text="Stop training" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
       <ComboBox fx:id="selectionMorceau" layoutX="374.0" layoutY="721.0" prefHeight="37.0" prefWidth="208.0" />
-      <Button fx:id="playSong" layoutX="472.0" layoutY="579.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Play selected song" textAlignment="CENTER">
+      <Button fx:id="playSong" layoutX="516.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Play selected song" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
@@ -73,7 +73,17 @@
       </CheckBox>
       <Label fx:id="scoreLabel" layoutX="-2.0" layoutY="497.0" prefHeight="50.0" prefWidth="686.0" text="Your score for this session : " textFill="WHITE" visible="false">
          <font>
-            <Font size="40.0" />
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="printStats" layoutX="515.0" layoutY="600.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Get stats" textAlignment="CENTER">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="statsLabel" layoutX="719.0" layoutY="180.0" onMouseClicked="#onGetStats" prefHeight="288.0" prefWidth="359.0" text="Label">
+         <font>
+            <Font size="19.0" />
          </font>
       </Label>
 </children>
