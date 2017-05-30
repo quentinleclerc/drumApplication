@@ -111,7 +111,8 @@ public class ListeningController implements Initializable {
 
     private PlayerSong player;
 
-    private SoundRecord song;
+    private SoundRecord record;
+
     public ListeningController() {
         System.out.println("Listening initialized.");
         this.training = false;
@@ -166,14 +167,14 @@ public class ListeningController implements Initializable {
         liaisonToms.put(Drummer.CRASH, this.cymbaleGauche);
         liaisonToms.put(Drummer.RIDE, this.cymbaleDroite);
 
-        kickDistance.put(Drummer.SNARE, caisseBasGauche.getLayoutY() - caisseBasGauche.getRadius());
-        kickDistance.put(Drummer.MIDDLE_TOM, caisseHautDroite.getLayoutY() - caisseHautDroite.getRadius());
-        kickDistance.put(Drummer.HITHAT, cymbaleBasGauche.getLayoutY() - cymbaleBasGauche.getRadius());
-        kickDistance.put(Drummer.HIGH_TOM, caisseHautGauche.getLayoutY() - caisseHautGauche.getRadius());
-        kickDistance.put(Drummer.FLOOR_TOM, caisseBasDroite.getLayoutY() - caisseBasDroite.getRadius());
-        kickDistance.put(Drummer.CRASH, cymbaleGauche.getLayoutY() - cymbaleGauche.getRadius());
-        kickDistance.put(Drummer.RIDE, cymbaleDroite.getLayoutY() - cymbaleDroite.getRadius());
-        kickDistance.put(Drummer.KICK, pedale.getLayoutY() - pedale.getRadiusY());
+        kickDistance.put(Drummer.SNARE, caisseBasGauche.getLayoutY());
+        kickDistance.put(Drummer.MIDDLE_TOM, caisseHautDroite.getLayoutY() );
+        kickDistance.put(Drummer.HITHAT, cymbaleBasGauche.getLayoutY());
+        kickDistance.put(Drummer.HIGH_TOM, caisseHautGauche.getLayoutY());
+        kickDistance.put(Drummer.FLOOR_TOM, caisseBasDroite.getLayoutY());
+        kickDistance.put(Drummer.CRASH, cymbaleGauche.getLayoutY());
+        kickDistance.put(Drummer.RIDE, cymbaleDroite.getLayoutY());
+        kickDistance.put(Drummer.KICK, pedale.getLayoutY());
     }
 
     private void initializeCheckBox() {
@@ -289,7 +290,7 @@ public class ListeningController implements Initializable {
         this.training = true;
         this.scoreLabel.setVisible(false);
 
-        SoundRecord record = selectedRecord();
+        record = selectedRecord();
         ArrayList<Long> sleepTimes = this.scoreManager.initializeSong(record, looping);
 
         try {
@@ -362,8 +363,7 @@ public class ListeningController implements Initializable {
 
     @FXML
     void onClickPlay(MouseEvent event) {
-        SoundRecord selected = this.song;
-        this.player = new PlayerSong(selected);
+        this.player = new PlayerSong(record);
         this.player.playSong(looping);
     }
 
@@ -381,35 +381,27 @@ public class ListeningController implements Initializable {
         int velocity = 100;
         switch (event.getCode()) {
             case SPACE :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.KICK, velocity, 0);
                 break;
             case G :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.HIGH_TOM, velocity, 0);
                 break;
             case H :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.MIDDLE_TOM, velocity, 0);
                 break;
             case N :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.FLOOR_TOM, velocity, 0);
                 break;
             case J :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.RIDE,velocity, 0);
                 break;
             case F :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.CRASH,velocity, 0);
                 break;
             case V :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.SNARE, velocity, 0);
                 break;
             case C :
-                System.out.println(event.getCode());
                 noteListener.receivedNote(Drummer.HITHAT, velocity, 0);
                 break;
             /*
