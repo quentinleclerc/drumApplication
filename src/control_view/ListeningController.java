@@ -352,7 +352,7 @@ public class ListeningController implements Initializable {
     void onClickPlay(MouseEvent event) {
         SoundRecord selected = selectedRecord();
         this.player = new PlayerSong(selected);
-        this.player.playSong();
+        this.player.playSong(looping);
     }
 
     public void addShape(Shape e){

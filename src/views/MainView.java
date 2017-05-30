@@ -179,6 +179,18 @@ public class MainView extends Application {
         test.addEvent(e30);
         rec.add(test);
 
+
+        SoundRecord metronome = new SoundRecord("Metronome");
+        Event m1 = new Event(1000, 38, 100);
+        Event m2 = new Event(2000, 38, 100);
+        Event m3 = new Event(3000, 38, 100);
+        Event m4 = new Event(4000, 38, 100);
+        metronome.add(m1);
+        metronome.add(m2);
+        metronome.add(m3);
+        metronome.add(m4);
+        rec.add(metronome);
+
         return rec;
     }
 
