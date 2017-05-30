@@ -1,15 +1,10 @@
 package midi;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.Track;
-
 import player.Drummer;
 import player.PlayerSong;
 
@@ -30,7 +25,7 @@ public class CerclesRepresentation extends ArrayList<Event>{
 	}
 
 	private void buildCercleListe() {
-		for (Iterator Event = cerclesSong.iterator(); Event.hasNext();) {
+		for (Iterator<Event> Event = cerclesSong.iterator(); Event.hasNext();) {
 			Event event = (Event) Event.next();
 			int note = event.getNote();
 			long timeStamp = event.getTemps();

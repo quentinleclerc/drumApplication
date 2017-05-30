@@ -300,6 +300,7 @@ public class ListeningController implements Initializable {
         this.onClickPlay(null);
 
 
+
         this.scoreManager.initializeSong(song,1);
         // START LUIS
         // LOOPING boolean
