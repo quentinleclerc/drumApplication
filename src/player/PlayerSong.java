@@ -25,8 +25,8 @@ public class PlayerSong implements Runnable{
 	public void stopSong(){
 		this.threadPlaying.interrupt();
 	}
-  
-  public void run() {
+
+	public void run() {
 		this.play();
 
 		while(looping) {
@@ -36,15 +36,15 @@ public class PlayerSong implements Runnable{
 
 	public void play() {
 		int i;
-    
-    try {
+
+		try {
 			Thread.sleep(this.song.get(0).getTemps());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-    
+
 		for (i = 0; i < song.size()-1; i++) {
-      
+
 			Event event = this.song.get(i);
 			double timestamp = event.getTemps();
 			int note = event.getNote();
@@ -65,4 +65,5 @@ public class PlayerSong implements Runnable{
 		int note = event.getNote();
 		int velocity = event.getVelocity();
 		drum.noteOn(note, velocity);
+	}
 }
