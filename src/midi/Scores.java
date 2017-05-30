@@ -44,9 +44,6 @@ public class Scores {
 	    setScoresMax();
 	    initAvRet();
 	    ArrayList<Long> SongCut = cutSong(50);
-		System.out.println("recordbynote : " + recordByNote.toString());
-		System.out.println("intervalles min : " + intervalles_min.toString());
-		System.out.println("precision : " + precision.toString());
 	    return SongCut;
 	}
 
@@ -87,7 +84,6 @@ public class Scores {
 
 	private void setScoresMax() {
 		score_max = original_song.size()*2;
-		System.out.println("score max : " +  score_max);
 		Iterator<Entry<Integer, SoundRecord>> it = recordByNote.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Entry<Integer, SoundRecord> pair = it.next();
@@ -174,7 +170,6 @@ public class Scores {
 	}
 	
 	public String end_record(){
-		System.out.println("nb erp : " + nbRep);
 		score_max = score_max*(nbRep);
 		Iterator<Entry<Integer, Double>> it = maxScoreNotes.entrySet().iterator();
 	    while (it.hasNext()) {
@@ -234,7 +229,6 @@ public class Scores {
         }
         double score =(long) (( 0.2*tempo + 1.8*decalage)/ 2);
         score_tot += score;
-        System.out.println("nouveau score tot : " + score_tot);
         return score;
     }
 
@@ -243,12 +237,10 @@ public class Scores {
         SoundRecord recE = record;
         SoundRecord playE = played;
         double score=0;
-        System.out.println("decalage");
 		for (Event event : recE) {
 			Boolean found = onTime(event, playE);
 			if (found) {
 				score += 2;
-				System.out.println("augmentation de 1 : " + score);
 				int note = event.getNote();
 				Double scoreNote = scoreNotes.get(note);
 				if (scoreNote == null) {
@@ -265,7 +257,6 @@ public class Scores {
 				} else {
 					scoreNotes.put(note,  scoreNote - 0.5);
 				}
-				System.out.println("diminution de 0.5 : " + score);
 			}
 		}
         return score;
@@ -325,16 +316,13 @@ public class Scores {
         ArrayList<Long> intR = record.getIntervales();
         ArrayList<Long> intL = played.getIntervales();
         double score=0;
-        System.out.println("tempo");
         for (int i = 0; i < intR.size(); i++) {
         	int note = record.get(i).getNote();
             if ( intL.get(i) >= (intR.get(i)-precision.get(note)) && intL.get(i) <= (intR.get(i)+precision.get(note))){
                 score+=2;
-                System.out.println("augmentation de 1 : " + score);
             }
             else{
                 score-=0.5;
-                System.out.println("diminution de 0.5 : " + score);
             }
         }
         return score;

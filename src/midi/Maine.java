@@ -12,65 +12,60 @@ public class Maine {
 	public static void main(String[] args) {
 		Scores sc = new Scores();
 		
-//		SoundRecord EatSleepRaveRepeat = new SoundRecord("EatSleepRaveRepeat");
-//
-//	    Event e1 = new Event(200, KICK, 100);
-//	    Event e2 = new Event(400, FLOOR_TOM, 100);
-//	    Event e3 = new Event(600, SNARE, 100);
-//	    Event e4 = new Event(800, HIGH_TOM, 100);
-//	    Event e5 = new Event(1000, KICK, 100);
-////	    Event e6 = new Event(1300, KICK, 100);
-////	    Event e7 = new Event(1600, KICK, 100);
-////	    Event e8 = new Event(1900, KICK, 100);
-//	    EatSleepRaveRepeat.addEvent(e1);
-//	    EatSleepRaveRepeat.addEvent(e2);
-//	    EatSleepRaveRepeat.addEvent(e3);
-//	    EatSleepRaveRepeat.addEvent(e4);
-//	    EatSleepRaveRepeat.addEvent(e5);
-////	    EatSleepRaveRepeat.addEvent(e6);
-////	    EatSleepRaveRepeat.addEvent(e7);
-////	    EatSleepRaveRepeat.addEvent(e8);
-////	    EatSleepRaveRepeat.addEvent(e9);
-////	    EatSleepRaveRepeat.addEvent(e);
-////	    EatSleepRaveRepeat.addEvent(e12);
-//		sc.initializeSong(EatSleepRaveRepeat,1);
-//		
-//
-//		SoundRecord eat1 = new SoundRecord("eat1");
-//	    Event a = new Event(200, KICK, 100);
-//	    Event b = new Event(400, FLOOR_TOM, 100);
-//	    Event c = new Event(600, SNARE, 100);
-//	    Event d = new Event(750, HIGH_TOM, 100);
-//	    Event q = new Event(1000, KICK, 100);
-//	    eat1.addEvent(a);
-//	    eat1.addEvent(b);
-//	    eat1.addEvent(c);
-//	    eat1.addEvent(d);
-//	    eat1.addEvent(q);
-//		SoundRecord eat2 = new SoundRecord("eat2");
-//	    Event i = new Event(200, KICK, 100);
-//	    Event f = new Event(400, FLOOR_TOM, 100);
-//	    Event g = new Event(600, SNARE, 100);
-//	    Event h = new Event(650, HIGH_TOM, 100);
-//	    Event w = new Event(1000, KICK, 100);
-//	    eat2.addEvent(i);
-//	    eat2.addEvent(f);
-//	    eat2.addEvent(g);
-//	    eat2.addEvent(h);
-//	    eat2.addEvent(w);
-////	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
-////	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
-////	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
-////	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
+		SoundRecord EatSleepRaveRepeat = new SoundRecord("EatSleepRaveRepeat");
+
+	    Event e1 = new Event(200, KICK, 100);
+	    Event e2 = new Event(400, FLOOR_TOM, 100);
+	    Event e3 = new Event(600, SNARE, 100);
+	    Event e4 = new Event(800, HIGH_TOM, 100);
+	    Event e5 = new Event(1000, KICK, 100);
+//	    Event e6 = new Event(1300, KICK, 100);
+//	    Event e7 = new Event(1600, KICK, 100);
+//	    Event e8 = new Event(1900, KICK, 100);
+	    EatSleepRaveRepeat.addEvent(e1);
+	    EatSleepRaveRepeat.addEvent(e2);
+	    EatSleepRaveRepeat.addEvent(e3);
+	    EatSleepRaveRepeat.addEvent(e4);
+	    EatSleepRaveRepeat.addEvent(e5);
+//	    EatSleepRaveRepeat.addEvent(e6);
+//	    EatSleepRaveRepeat.addEvent(e7);
+//	    EatSleepRaveRepeat.addEvent(e8);
+//	    EatSleepRaveRepeat.addEvent(e9);
+//	    EatSleepRaveRepeat.addEvent(e);
+//	    EatSleepRaveRepeat.addEvent(e12);
+		sc.initializeSong(EatSleepRaveRepeat,1);
+		
+
+		SoundRecord eat1 = new SoundRecord("eat1");
+	    Event a = new Event(200, KICK, 100);
+	    Event b = new Event(400, FLOOR_TOM, 100);
+	    Event c = new Event(600, SNARE, 100);
+	    Event d = new Event(750, HIGH_TOM, 100);
+	    Event q = new Event(1000, KICK, 100);
+	    eat1.addEvent(a);
+	    eat1.addEvent(b);
+	    eat1.addEvent(c);
+	    eat1.addEvent(d);
+	    eat1.addEvent(q);
+		SoundRecord eat2 = new SoundRecord("eat2");
+	    Event i = new Event(200, KICK, 100);
+	    Event f = new Event(400, FLOOR_TOM, 100);
+	    Event g = new Event(600, SNARE, 100);
+	    Event h = new Event(650, HIGH_TOM, 100);
+	    Event w = new Event(1000, KICK, 100);
+	    eat2.addEvent(i);
+	    eat2.addEvent(f);
+	    eat2.addEvent(g);
+	    eat2.addEvent(h);
+	    eat2.addEvent(w);
 //	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
-//		System.out.println(sc.end_record());
-//	    System.out.println("score notes : " + sc.scoreNotes);
-//	    System.out.println("score total : " + sc.score_tot);
-//	    System.out.println("score max : " + sc.score_max);
-//	    System.out.println("max score notes : " + sc.maxScoreNotes);
-//	    System.out.println("note av or ret: " + sc.noteAvOrRet);
-//	  
-//		System.out.println(sc.getStats());
+//	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
+//	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
+//	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
+	    sc.compare_table(EatSleepRaveRepeat, EatSleepRaveRepeat);
+		System.out.println(sc.end_record());
+	  
+		System.out.println(sc.getStats());
 
 		SoundRecord example = new SoundRecord("example");
 		
