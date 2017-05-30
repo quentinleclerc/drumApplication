@@ -12,9 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import midi.CerclesRepresentation;
 import midi.Event;
-import midi.MidiFileToSong;
 import midi.SoundRecord;
-import player.PlayerSong;
 
 public class ThreadCircle implements Runnable {
 
@@ -46,7 +44,8 @@ public class ThreadCircle implements Runnable {
 
 	private void initializeCirclesRep(){
 		this.cercleRepresentation = new CerclesRepresentation(this.song, this.kickDistance);
-		System.out.println(cercleRepresentation);
+		System.out.println("> " + this.getClass() + this.cercleRepresentation);
+		//		System.out.println(cercleRepresentation);
 
 	}
 
@@ -57,7 +56,7 @@ public class ThreadCircle implements Runnable {
 	public void removeEllipse(Ellipse sh){
 		this.liaisonEllipsesToPath.get(sh).setOnFinished(event -> Platform.runLater(() -> controller.removeShape(sh)));
 	}
-	
+
 	private void moveToTom(int note){
 		if(note == 35){
 			Ellipse pedaleTemp = hc.makeEllipse(pedale);
@@ -73,57 +72,79 @@ public class ThreadCircle implements Runnable {
 	}
 
 	public void run() {
-		int i;
-		try {
-			Thread.sleep(this.song.get(0).getTemps());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		for (i = 0; i < cercleRepresentation.size()-1; i++) {
+
+		boolean running = true;
+		while(running){
+			int i = 0;
+			try {
+				Thread.sleep(this.song.get(0).getTemps());
+			}  catch (InterruptedException e) {
+				this.deleteTemporaryShapes();
+				running = false;
+			}
+			
+			while(i < cercleRepresentation.size()-1 && running){
+				Event event = cercleRepresentation.get(i);
+				double timestamp = event.getTemps();
+				int note = event.getNote();
+				// int velocity = event.getVelocity();
+				moveToTom(note);
+				i++;
+				try {
+						Thread.sleep((long)(cercleRepresentation.get(i+1).getTemps()-timestamp));
+				} catch (InterruptedException e) {
+					this.deleteTemporaryShapes();
+					running = false;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					e.printStackTrace();
+				}
+			}
+			//last event
+
 			Event event = cercleRepresentation.get(i);
-			double timestamp = event.getTemps();
 			int note = event.getNote();
 			// int velocity = event.getVelocity();
 			moveToTom(note);
 			try {
-				Thread.sleep((long)(cercleRepresentation.get(i+1).getTemps()-timestamp));
-			} catch (ArrayIndexOutOfBoundsException e) {
-				e.printStackTrace();
+				Thread.sleep(1500);
 			} catch (InterruptedException e) {
-				this.deleteCircles();
-				this.deleteEllipses();
-				Thread.currentThread().interrupt();
+			}finally{
+				this.deleteTemporaryShapes();
+				running = false;
 			}
 		}
-		//last event
-		Event event = cercleRepresentation.get(i);
-		int note = event.getNote();
-		// int velocity = event.getVelocity();
-		moveToTom(note);
 	}
-	
+
 	public CerclesRepresentation getCercleRepresentation(){
 		return this.cercleRepresentation;
 	}
-	
+
 	private void deleteCircles(){
-	    Iterator it = liaisonCirclesToPath.entrySet().iterator();
+
+	    Iterator<Entry<Circle, PathTransition>> it = liaisonCirclesToPath.entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        Circle c = (Circle) pair.getKey();
+	        Map.Entry<Circle, PathTransition> pair = (Map.Entry<Circle, PathTransition>)it.next();
+	        Circle c = pair.getKey();
 	        it.remove(); // avoids a ConcurrentModificationException
 	        Platform.runLater(() -> controller.removeShape(c));
 	    }
+
 	}
-	
+
 	private void deleteEllipses(){
-	    Iterator it = liaisonEllipsesToPath.entrySet().iterator();
+
+	    Iterator<Entry<Ellipse, PathTransition>> it = liaisonEllipsesToPath.entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        Ellipse e = (Ellipse) pair.getKey();
+	        Map.Entry<Ellipse, PathTransition> pair = (Map.Entry<Ellipse, PathTransition>)it.next();
+	        Ellipse e = pair.getKey();
 	        it.remove(); // avoids a ConcurrentModificationException
 	        Platform.runLater(() -> controller.removeShape(e));
 	    }
+	}
+	
+	private void deleteTemporaryShapes(){
+		deleteCircles();
+		deleteEllipses();
 	}
 		
 }
