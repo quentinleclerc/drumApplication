@@ -1,5 +1,7 @@
 package control;
 
+import control_view.ListeningController;
+import javafx.application.Platform;
 import midi.Event;
 import midi.Scores;
 import midi.SoundRecord;
@@ -12,7 +14,11 @@ import static java.lang.Thread.sleep;
 
 public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
 
+
+    private final ListeningController controller;
+
     private final ArrayList<Long> sleepTimes;
+    private Double score;
     private SoundRecord played;
     private SoundRecord record;
     private Scores scoreManager;
@@ -25,7 +31,7 @@ public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
     private Date dateDeb;
     private boolean training;
 
-    public NoteListenerPeriodicThread(SoundRecord record, Scores scoreManager, ArrayList<Long> sleepTimes, boolean looping) {
+    public NoteListenerPeriodicThread(SoundRecord record, Scores scoreManager, ArrayList<Long> sleepTimes, boolean looping, ListeningController controller) {
         this.played = new SoundRecord("Played_by_user");
         this.record = record;
         this.scoreManager = scoreManager;
@@ -33,6 +39,8 @@ public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
         this.sleepTimes = sleepTimes;
         this.looping = looping;
         this.training = true;
+        this.controller = controller;
+        this.score = score;
     }
 
     public void setRecord(SoundRecord record) {
@@ -55,7 +63,9 @@ public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
                 this.played = new SoundRecord("Played by user");
                 try {
                     sleep(record.get(record.size() - 1).getTemps());
-                    scoreManager.compare_table(record, played);
+                    score = scoreManager.compare_table(record, played);
+                    System.out.println("Score1 = " + score);
+                    controller.updateScore(score);
                 }
                 catch (InterruptedException e) {
                     looping = false;
@@ -70,17 +80,30 @@ public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
 
                     if (i == (sleepTimes.size())) {
                         training = false;
-                        scoreManager.compare_table(record.getSub(sleepTimes.get(i), record.get(record.size()).getTemps()), played);
+                        sleep(record.get(record.size()-1).getTemps()-sleepTimes.get(i-1));
+                        // System.out.println("sleeptimes : " + sleepTimes.get(i-1));
+                        // System.out.println("dernier temps de record : " + record.get(record.size()-1).getTemps());
+                        //System.out.println("played : " + played);
+                        //System.out.println("record " + record.getSub(sleepTimes.get(i-1), record.get(record.size()-1).getTemps()));
+                        score = scoreManager.compare_table(record.getSub(sleepTimes.get(i-1), record.get(record.size()-1).getTemps()), played);
+                        //System.out.println("Score2 = " + score);
+                        controller.updateScore(score);
+
                     }
                     else if (i == 0){
                         sleep(sleepTimes.get(i));
-                        scoreManager.compare_table(record.getSub(0, sleepTimes.get(i)), played);
+                        //System.out.println("played : " + played);
+                        //System.out.println("record : " + record.getSub(0, sleepTimes.get(i)));
+                        score = scoreManager.compare_table(record.getSub(0, sleepTimes.get(i)), played);
+                        //System.out.println("Score3 = " + score);
+                        controller.updateScore(score);
 
                     }
                     else{
                         sleep(sleepTimes.get(i)-sleepTimes.get(i-1));
-                        scoreManager.compare_table(record.getSub(sleepTimes.get(i), sleepTimes.get(i+1)), played);
-
+                        score = scoreManager.compare_table(record.getSub(sleepTimes.get(i), sleepTimes.get(i+1)), played);
+                        System.out.println("Score4 = " + score);
+                        controller.updateScore(score);
                     }
                     i++;
                 }
@@ -110,26 +133,6 @@ public class NoteListenerPeriodicThread implements Runnable, NoteChannel {
         threadTimer.start();
     }
 
-/*
-
-Thread th = new Thread(new Runnable() {
--            @Override
--            public void run() {
--                while (!success){
--                    Date actualDate = new Date();
--                    timing = (int) (actualDate.getTime() - dateDeb.getTime());
--                    //timer.setText(Long.toString(timing/1000)+":"+Long.toString(timing%1000));
--                    try {
--                        Thread.sleep(100);
--                    } catch (InterruptedException e) {
--                        e.printStackTrace();
--                    }
--                }
--            }
--        });
-
-
- */
 
 
 }

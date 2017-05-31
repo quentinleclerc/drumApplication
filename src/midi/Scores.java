@@ -214,7 +214,7 @@ public class Scores {
 		return rec;
 	}
 	
-	public double compare_table(SoundRecord record, SoundRecord played){
+	public Double compare_table(SoundRecord record, SoundRecord played){
         double tempo = score_tempo;
         double decalage = score_decalage;
         if (played.size() == 0){
@@ -235,7 +235,7 @@ public class Scores {
             }
             decalage += decalage(record,played);//compare le decalage par rapport au morceau initial
         }
-        double score =(long) (( 0.2*tempo + 1.8*decalage)/ 2);
+        Double score = (( 0.2*tempo + 1.8*decalage)/ 2);
         score_tot += score;
         // System.out.println("nouveau score tot : " + score_tot);
 

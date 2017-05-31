@@ -1,90 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Ellipse?>
 
-<Pane fx:id="fondPlayFree" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="810.0" prefWidth="1149.0" stylesheets="@/css/Listening.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.ListeningController">
-<children>
-    <Button fx:id="backToMenu" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER">
-        <font>
-            <Font size="16.0" />
-        </font>
-    </Button>
-      <Button fx:id="startButton" layoutX="52.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="208.0" text="Start listening to socket" textAlignment="CENTER">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="stopButton" layoutX="52.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="startTraining" layoutX="276.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#onClickStartTraining" prefHeight="37.0" prefWidth="208.0" text="Start training" textAlignment="CENTER">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="stopTraining" layoutX="276.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#onClickStopTraining" prefHeight="37.0" prefWidth="208.0" text="Stop training" textAlignment="CENTER">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <ComboBox fx:id="selectionMorceau" layoutX="374.0" layoutY="721.0" prefHeight="37.0" prefWidth="208.0" />
-      <Button fx:id="playSong" layoutX="516.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Play selected song" textAlignment="CENTER">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-
-        <ImageView fitHeight="369.0" fitWidth="600.0" layoutX="47.0" layoutY="142.0">
-            <image>
-                <Image url="@../images/drumkit_4_580.jpg" />
-            </image>
-        </ImageView>
-        <Circle fx:id="cymbaleGauche" fill="#ff000000" layoutX="183.0" layoutY="237.0" radius="79.0" stroke="#ff000000" strokeType="INSIDE" />
-        <Circle fx:id="caisseBasGauche" fill="#2197ff00" layoutX="244.0" layoutY="399.0" radius="69.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-        <Circle fx:id="cymbaleBasGauche" fill="#732d2d00" layoutX="151.0" layoutY="372.0" radius="62.0" stroke="#ff000000" strokeType="INSIDE" />
-        <Circle fx:id="caisseHautGauche" fill="#1316cf00" layoutX="273.0" layoutY="284.0" radius="54.0" stroke="#ff000000" strokeType="INSIDE" />
-        <Circle fx:id="caisseBasDroite" fill="#2197ff00" layoutX="478.0" layoutY="389.0" radius="74.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-        <Circle fx:id="caisseHautDroite" fill="#b2595900" layoutX="390.0" layoutY="290.0" radius="64.0" stroke="#ff000000" strokeType="INSIDE" />
-        <Circle fx:id="cymbaleDroite" fill="#00ffae00" layoutX="501.0" layoutY="226.0" radius="75.0" stroke="#ff000000" strokeType="INSIDE" />
-        <Ellipse fx:id="pedale" fill="#1f93ff00" layoutX="341.0" layoutY="389.0" radiusX="17.0" radiusY="45.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-      <RadioButton fx:id="selectComputer" layoutX="44.0" layoutY="708.0" mnemonicParsing="false" text="Select MIDI file from computer" textFill="WHITE" />
-      <RadioButton fx:id="selectRecord" layoutX="44.0" layoutY="736.0" mnemonicParsing="false" text="Select record from list" textFill="WHITE" />
-      <ImageView fx:id="folderIcon" fitHeight="70.0" fitWidth="69.0" layoutX="279.0" layoutY="704.0" onMouseClicked="#onFolderClicked">
-         <image>
-            <Image url="@../images/noun_970671_cc.png" />
-         </image>
-      </ImageView>
-      <CheckBox fx:id="loopCheckBox" layoutX="289.0" layoutY="674.0" mnemonicParsing="false" text="Loop training song">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </CheckBox>
-      <Label fx:id="scoreLabel" layoutX="-2.0" layoutY="497.0" prefHeight="50.0" prefWidth="686.0" text="Your score for this session : " textFill="WHITE" visible="false">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Button fx:id="printStats" layoutX="515.0" layoutY="600.0" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Get stats" textAlignment="CENTER">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Label fx:id="statsLabel" layoutX="719.0" layoutY="180.0" onMouseClicked="#onGetStats" prefHeight="288.0" prefWidth="359.0" text="Label">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
-</children>
+<Pane fx:id="fondPlayFree" stylesheets="@/css/Listening.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control_view.ListeningController">
+   <children>
+      <Group fx:id="groupBatt" layoutX="250.0" layoutY="180.0">
+         <children>
+      
+                                            <ImageView fitHeight="369.0" fitWidth="600.0">
+                  <image>
+                      <Image url="@../images/drumkit_4_580.jpg" />
+                  </image>
+              </ImageView>
+              <Ellipse fx:id="pedale" fill="#f5000000" layoutX="294.0" layoutY="247.0" radiusX="17.0" radiusY="45.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+              <Circle fx:id="caisseHautDroite" fill="#f5000000" layoutX="344.0" layoutY="148.0" radius="64.0" stroke="#ff000000" strokeType="INSIDE" />
+              <Circle fx:id="caisseHautGauche" fill="#f5000000" layoutX="224.0" layoutY="141.0" radius="54.0" stroke="#ff000000" strokeType="INSIDE" />
+              <Circle fx:id="caisseBasDroite" fill="#f5000000" layoutX="431.0" layoutY="248.0" radius="74.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+              <Circle fx:id="caisseBasGauche" fill="#f5000000" layoutX="197.0" layoutY="257.0" radius="69.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+              <Circle fx:id="cymbaleBasGauche" fill="#f5000000" layoutX="104.0" layoutY="229.0" radius="62.0" stroke="#ff000000" strokeType="INSIDE" />
+              <Circle fx:id="cymbaleDroite" fill="#f5000000" layoutX="454.0" layoutY="86.0" radius="75.0" stroke="#ff000000" strokeType="INSIDE" />
+              <Circle fx:id="cymbaleGauche" fill="#f5000000" layoutX="139.0" layoutY="96.0" radius="81.0" stroke="#ff000000" strokeType="INSIDE" />
+         </children>
+      </Group>
+      <GridPane fx:id="fondPlayFreeOld" onKeyPressed="#onKeyPressed" prefHeight="1141.0" prefWidth="1075.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.37115478515625" minWidth="10.0" prefWidth="275.3954162597656" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="890.4736938476562" minWidth="10.0" prefWidth="271.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.3235473632812" minWidth="0.0" prefWidth="0.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.3235473632812" minWidth="10.0" prefWidth="235.4957275390625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.3235473632812" minWidth="10.0" prefWidth="285.5042724609375" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="80.0" prefHeight="80.0" />
+          <RowConstraints maxHeight="-Infinity" minHeight="380.0" prefHeight="380.0" />
+            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
+          <RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="NEVER" />
+            <RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="200.0" minHeight="200.0" prefHeight="200.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ComboBox fx:id="selectionMorceau" prefHeight="37.0" prefWidth="246.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Button fx:id="playSong" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Play selected song" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </Button>
+            <RadioButton fx:id="selectComputer" mnemonicParsing="false" prefHeight="16.0" prefWidth="268.0" text="Select MIDI file from computer" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="60.0" />
+               </GridPane.margin>
+            </RadioButton>
+            <RadioButton fx:id="selectRecord" mnemonicParsing="false" prefHeight="16.0" prefWidth="265.0" text="Select record from list" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </RadioButton>
+            <ImageView fx:id="folderIcon" fitHeight="70.0" fitWidth="69.0" onMouseClicked="#onFolderClicked" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../images/noun_970671_cc.png" />
+               </image>
+            </ImageView>
+            <CheckBox fx:id="loopCheckBox" mnemonicParsing="false" text="Loop training song" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin>
+            </CheckBox>
+            <Button fx:id="printStats" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Get stats" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Label fx:id="statsLabel" onMouseClicked="#onGetStats" prefHeight="288.0" prefWidth="359.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button fx:id="stopButton" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin>
+            </Button>
+          <Button fx:id="backToMenu" mnemonicParsing="false" onMouseClicked="#onClickMenu" prefHeight="37.0" prefWidth="91.0" text="&lt; Menu" textAlignment="CENTER" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+              <font>
+                  <Font size="16.0" />
+              </font>
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+          </Button>
+         <Button fx:id="startTraining" layoutX="276.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#onClickStartTraining" prefHeight="37.0" prefWidth="208.0" text="Start training" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+             <font>
+                 <Font size="16.0" />
+             </font>
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+         </Button>
+         <Button fx:id="stopTraining" layoutX="276.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#onClickStopTraining" prefHeight="37.0" prefWidth="208.0" text="Stop training" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+             <font>
+                 <Font size="16.0" />
+             </font>
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin>
+         </Button>
+            <Button fx:id="startButton" mnemonicParsing="false" onMouseClicked="#onClickStart" prefHeight="37.0" prefWidth="208.0" text="Start listening to socket" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Label fx:id="scoreLabel" prefHeight="263.0" prefWidth="237.0" text="45,8 %" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="66.0" />
+               </font>
+            </Label>
+            <Label fx:id="scoreLabel1" prefHeight="263.0" prefWidth="237.0" text="45,8 %" textFill="WHITE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="66.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+   </children>
 </Pane>

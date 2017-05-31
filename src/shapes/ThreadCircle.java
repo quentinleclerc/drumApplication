@@ -30,6 +30,7 @@ public class ThreadCircle implements Runnable {
 	private CerclesRepresentation cercleRepresentation;
 
 	private SoundRecord song;
+	private boolean running;
 
 	// Default Constructor
 	public ThreadCircle(SoundRecord song, ListeningController controller, Map<Integer, Double> map, Map<Integer, Circle> map2, Ellipse ellipse) {
@@ -38,6 +39,7 @@ public class ThreadCircle implements Runnable {
 		this.pedale = ellipse;
 		this.controller = controller;
 		this.song = song;
+		this.running = true;
 		hc = new HandlerCircle();
 		initializeCirclesRep();
 	}
@@ -72,12 +74,11 @@ public class ThreadCircle implements Runnable {
 	}
 
 	public void run() {
-
-		boolean running = true;
+		int i;
 		while(running){
-			int i = 0;
+			i = 0;
 			try {
-				Thread.sleep(this.song.get(0).getTemps());
+				Thread.sleep(this.cercleRepresentation.get(0).getTemps());
 			}  catch (InterruptedException e) {
 				this.deleteTemporaryShapes();
 				running = false;
@@ -142,7 +143,7 @@ public class ThreadCircle implements Runnable {
 	    }
 	}
 	
-	private void deleteTemporaryShapes(){
+	public void deleteTemporaryShapes(){
 		deleteCircles();
 		deleteEllipses();
 	}

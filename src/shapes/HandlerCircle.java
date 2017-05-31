@@ -22,7 +22,8 @@ public class HandlerCircle {
 	}
 	
 	public Circle makeCircle(Circle target) {
-		double x = target.getLayoutX();
+		double x = target.getLayoutX() + target.getParent().getLayoutX();
+		System.out.println("Make Circle X = " + x);
 		double radius = target.getRadius();
 		double opacity = (Math.random()*0.5 + 0.5);
 		Circle circle = new Circle(x, radius, radius, Color.gray(opacity, 0.5));
@@ -31,7 +32,7 @@ public class HandlerCircle {
 	}
 
 	public Ellipse makeEllipse(Ellipse target) {
-		double x = target.getLayoutX();
+		double x = target.getLayoutX() + target.getParent().getLayoutX();
 		double radiusX = target.getRadiusX();
 		double radiusY = target.getRadiusY();
 		Ellipse ellipse = new Ellipse(x, radiusY, radiusY, radiusX);
@@ -49,7 +50,7 @@ public class HandlerCircle {
 		
 		Path path = new Path();
 		path.getElements().add(new MoveTo(circle.getCenterX(),circle.getCenterY()));
-		path.getElements().add(new VLineTo(target.getLayoutY())); //Distance (le centre du rond cible)
+		path.getElements().add(new VLineTo(target.getLayoutY()+target.getParent().getLayoutY())); //Distance (le centre du rond cible)
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(1000)); //Temps (en ms)
 		pathTransition.setPath(path);

@@ -13,6 +13,7 @@ import midi.Scores;
 import midi.SoundRecord;
 import network.UDP_Server;
 import player.Drummer;
+import saver.Serializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class MainView extends Application {
 
             Scene scene = new Scene(myPane);
             stage.setScene(scene);
+            stage.setMaximized(true);
 
             MenuController controller = loader.getController();
             controller.setPrevStage(stage);
@@ -67,33 +69,11 @@ public class MainView extends Application {
 
             Scene scene = new Scene(myPane);
             stage.setScene(scene);
+            stage.setMaximized(true);
+
 
             PlayFreeController controller = loader.getController();
             controller.setScene(scene);
-            controller.setPrevStage(stage);
-            controller.setMainApp(this);
-
-            prevStage.close();
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void showPlayMidiView(Stage prevStage) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("PlayMidi View");
-            Pane myPane;
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(MainView.PlayMidiFXML));
-
-            myPane = loader.load();
-
-            Scene scene = new Scene(myPane);
-            stage.setScene(scene);
-
-            PlayMidiController controller = loader.getController();
             controller.setPrevStage(stage);
             controller.setMainApp(this);
 
@@ -116,6 +96,7 @@ public class MainView extends Application {
 
             Scene scene = new Scene(myPane);
             stage.setScene(scene);
+            stage.setMaximized(true);
 
             ArrayList<SoundRecord> recordsArray =createRecords();
             ObservableList<SoundRecord> records = FXCollections.observableArrayList(recordsArray);
@@ -201,7 +182,7 @@ public class MainView extends Application {
 
         rec.add(metronome);
 
-
+        rec.add(new Serializer().deSerialize("hh"));
 //        System.out.println(metronome.getSub(0, 890));
   //      System.out.println(metronome.getSub(0, 1290));
     //    System.out.println(metronome.getSub(1800, 4500));

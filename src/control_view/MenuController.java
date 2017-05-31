@@ -10,9 +10,7 @@ import javafx.stage.Stage;
 import views.MainView;
 
 public class MenuController implements Initializable {
-	
-	@FXML
-	Button playMidi;
+
 	@FXML
 	Button playFree;
 	@FXML
@@ -36,11 +34,6 @@ public class MenuController implements Initializable {
 	@FXML
 	public void onPlayFree(){
 		this.mainApp.showPlayFreeView(this.prevStage);
-	}
-	
-	@FXML
-	public void onPlayMidi() {
-		this.mainApp.showPlayMidiView(this.prevStage);
 	}
 
 	@FXML
