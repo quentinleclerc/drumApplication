@@ -1,5 +1,6 @@
 package control_view;
 
+import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
 import control.FilesController;
 import control.NoteListenerPeriodicThread;
 import javafx.application.Platform;
@@ -89,6 +90,8 @@ public class ListeningController implements Initializable {
     private Label statsLabel;
     @FXML
     private Group groupBatt;
+    @FXML
+    private Button printStats;
 
     private Stage prevStage;
 
@@ -186,14 +189,16 @@ public class ListeningController implements Initializable {
         liaisonToms.put(Drummer.FLOOR_TOM, this.caisseBasDroite);
         liaisonToms.put(Drummer.RIDE, this.cymbaleDroite);
 
+        /*
         for (Circle c : liaisonToms.values()) {
             System.out.println("X = " + c.getLayoutX() + " Y = " + c.getLayoutY());
 
         }
-/*
+
         Circle circle = new Circle(400d, 400d, this.cymbaleBasGauche.getRadius(), Color.BLUE);
         this.fondPlayFree.getChildren().add(circle);
-*/
+        */
+
         kickDistance.put(Drummer.SNARE, caisseBasGauche.getLayoutY());
         kickDistance.put(Drummer.MIDDLE_TOM, caisseHautDroite.getLayoutY() );
         kickDistance.put(Drummer.HITHAT, cymbaleBasGauche.getLayoutY());
@@ -340,8 +345,16 @@ public class ListeningController implements Initializable {
         threadCircle = new ThreadCircle(record, this, this.kickDistance, this.liaisonToms, this.pedale);
         this.threadCircleThread = new Thread (threadCircle);
 
-        this.threadCircleThread.start();
         this.onClickPlay(null);
+
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        this.threadCircleThread.start();
+
 
         this.noteListener.startTimer();
         // START LUIS
@@ -357,7 +370,7 @@ public class ListeningController implements Initializable {
 
         String score = this.scoreManager.end_record();
         // this.updateScore(score);
-        System.out.println(this.scoreManager.getStats());
+        // System.out.println(this.scoreManager.getStats());
 
         this.threadCircleThread.interrupt();
         System.out.println(this.player);
@@ -457,7 +470,9 @@ public class ListeningController implements Initializable {
 
     @FXML
     void onGetStats(MouseEvent event) {
-        this.statsLabel.setText(this.scoreManager.getStats());
+        String stats = this.scoreManager.getStats();
+        System.out.println("On get stats : " + stats);
+        this.statsLabel.setText(stats);
     }
 
     public void removeShape(Shape e) {

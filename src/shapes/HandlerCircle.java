@@ -23,7 +23,7 @@ public class HandlerCircle {
 	
 	public Circle makeCircle(Circle target) {
 		double x = target.getLayoutX() + target.getParent().getLayoutX();
-		System.out.println("Make Circle X = " + x);
+		// System.out.println("Make Circle X = " + x);
 		double radius = target.getRadius();
 		double opacity = (Math.random()*0.5 + 0.5);
 		Circle circle = new Circle(x, radius, radius, Color.gray(opacity, 0.5));
@@ -69,7 +69,7 @@ public class HandlerCircle {
 		
 		Path path = new Path();
 		path.getElements().add(new MoveTo(ellipse.getCenterX(),ellipse.getCenterY()));
-		path.getElements().add(new VLineTo(pedale.getLayoutY())); //Distance (pédale cible)
+		path.getElements().add(new VLineTo(pedale.getLayoutY()+pedale.getParent().getLayoutY())); //Distance (pédale cible)
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(1000)); //Temps (en ms)
 		pathTransition.setPath(path);

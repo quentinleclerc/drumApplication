@@ -121,10 +121,10 @@ public class MainView extends Application {
         ArrayList<SoundRecord> rec = new ArrayList<SoundRecord>();
 
         SoundRecord macarena = new SoundRecord("Macarena");
-        Event event0 = new Event(500,50, 100);
-        Event event2 = new Event(1000, 38, 100);
-        Event event4 = new Event(1500, 50, 100);
-        Event event6 = new Event(2000, 38, 100);
+        Event event0 = new Event(1500,50, 100);
+        Event event2 = new Event(2000, 38, 100);
+        Event event4 = new Event(2500, 50, 100);
+        Event event6 = new Event(3000, 38, 100);
         macarena.addEvent(event0);
         macarena.addEvent(event2);
         macarena.addEvent(event4);
@@ -132,14 +132,14 @@ public class MainView extends Application {
         rec.add(macarena);
 
         SoundRecord EatSleepRaveRepeat = new SoundRecord("EatSleepRaveRepeat");
-        Event e1 = new Event(200, Drummer.KICK, 100);
-        Event e2 = new Event(400, Drummer.FLOOR_TOM, 100);
-        Event e3 = new Event(600, Drummer.SNARE, 100);
-        Event e4 = new Event(800, Drummer.HIGH_TOM, 100);
-        Event e5 = new Event(1000, Drummer.KICK, 100);
-        Event e6 = new Event(1300, Drummer.KICK, 100);
-        Event e7 = new Event(1600, Drummer.KICK, 100);
-        Event e8 = new Event(1900, Drummer.KICK, 100);
+        Event e1 = new Event(1200, Drummer.KICK, 100);
+        Event e2 = new Event(1400, Drummer.FLOOR_TOM, 100);
+        Event e3 = new Event(1600, Drummer.SNARE, 100);
+        Event e4 = new Event(1800, Drummer.HIGH_TOM, 100);
+        Event e5 = new Event(2000, Drummer.KICK, 100);
+        Event e6 = new Event(2300, Drummer.KICK, 100);
+        Event e7 = new Event(2600, Drummer.KICK, 100);
+        Event e8 = new Event(2900, Drummer.KICK, 100);
 
         EatSleepRaveRepeat.addEvent(e1);
         EatSleepRaveRepeat.addEvent(e2);
@@ -181,6 +181,28 @@ public class MainView extends Application {
         metronome.add(m8);
 
         rec.add(metronome);
+
+
+        SoundRecord testTout = new SoundRecord("Test tout tomes");
+        Event test1 = new Event(1000, Drummer.HIGH_TOM, 100);
+        Event test2 = new Event(2000, Drummer.SNARE, 100);
+        Event test3 = new Event(3000, Drummer.MIDDLE_TOM, 100);
+        Event test4 = new Event(4000, Drummer.KICK, 100);
+        Event test5 = new Event(5000, Drummer.HITHAT, 100);
+        Event test6 = new Event(6000, Drummer.CRASH, 100);
+        Event test7 = new Event(7000, Drummer.FLOOR_TOM, 100);
+        Event test8 = new Event(8000, Drummer.RIDE, 100);
+        testTout.add(test1);
+        testTout.add(test2);
+        testTout.add(test3);
+        testTout.add(test4);
+        testTout.add(test5);
+        testTout.add(test6);
+        testTout.add(test7);
+        testTout.add(test8);
+        rec.add(testTout);
+
+
 
         rec.add(new Serializer().deSerialize("hh"));
 //        System.out.println(metronome.getSub(0, 890));

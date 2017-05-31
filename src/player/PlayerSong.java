@@ -3,6 +3,8 @@ package player;
 import midi.Event;
 import midi.SoundRecord;
 
+import java.util.Date;
+
 public class PlayerSong implements Runnable{
 
 	private SoundRecord song ;
@@ -27,14 +29,15 @@ public class PlayerSong implements Runnable{
 	}
 
 	public void run() {
+		System.out.println(new Date().getTime());
 		this.play();
-
 		while(looping) {
 			this.play();
 		}
 	}
 
 	public void play() {
+
 		int i;
 
 		try {

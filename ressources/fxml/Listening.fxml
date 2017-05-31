@@ -79,7 +79,7 @@
                   <Insets bottom="20.0" />
                </GridPane.margin>
             </CheckBox>
-            <Button fx:id="printStats" mnemonicParsing="false" onMouseClicked="#onClickPlay" prefHeight="37.0" prefWidth="208.0" text="Get stats" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+            <Button fx:id="printStats" mnemonicParsing="false" onMouseClicked="#onGetStats" prefHeight="37.0" prefWidth="208.0" text="Get stats" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
                <font>
                   <Font size="16.0" />
                </font>
@@ -87,11 +87,6 @@
                   <Insets top="20.0" />
                </GridPane.margin>
             </Button>
-            <Label fx:id="statsLabel" onMouseClicked="#onGetStats" prefHeight="288.0" prefWidth="359.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
             <Button fx:id="stopButton" mnemonicParsing="false" onMouseClicked="#onClickStop" prefHeight="37.0" prefWidth="208.0" text="Stop listening to socket" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="16.0" />
@@ -140,6 +135,11 @@
             <Label fx:id="scoreLabel1" prefHeight="263.0" prefWidth="237.0" text="45,8 %" textFill="WHITE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
                   <Font size="66.0" />
+               </font>
+            </Label>
+            <Label fx:id="statsLabel" alignment="TOP_LEFT" prefHeight="464.0" prefWidth="1075.0" text=" Petit son ldksfjflkjgdlkfgjdlkjgd" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnSpan="5" GridPane.rowIndex="1" GridPane.rowSpan="2">
+               <font>
+                  <Font size="19.0" />
                </font>
             </Label>
          </children>

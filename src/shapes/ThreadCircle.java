@@ -1,5 +1,6 @@
 package shapes;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javafx.scene.shape.Ellipse;
 import midi.CerclesRepresentation;
 import midi.Event;
 import midi.SoundRecord;
+import player.Drummer;
 
 public class ThreadCircle implements Runnable {
 
@@ -60,12 +62,12 @@ public class ThreadCircle implements Runnable {
 	}
 
 	private void moveToTom(int note){
-		if(note == 35){
+		if(note == Drummer.KICK){
 			Ellipse pedaleTemp = hc.makeEllipse(pedale);
 			Platform.runLater(() -> controller.addShape(pedaleTemp));
 			liaisonEllipsesToPath.put(pedaleTemp, hc.moveEllipse(pedaleTemp, pedale));
 		}
-		else{
+		else {
 			Circle target = liaisonToms.get(note);
 			Circle circleTemp = hc.makeCircle(target);
 			Platform.runLater(() -> controller.addShape(circleTemp));
@@ -74,6 +76,7 @@ public class ThreadCircle implements Runnable {
 	}
 
 	public void run() {
+		System.out.println(new Date().getTime());
 		int i;
 		while(running){
 			i = 0;
@@ -84,7 +87,7 @@ public class ThreadCircle implements Runnable {
 				running = false;
 			}
 			
-			while(i < cercleRepresentation.size()-1 && running){
+			while(i < cercleRepresentation.size() - 1 && running){
 				Event event = cercleRepresentation.get(i);
 				double timestamp = event.getTemps();
 				int note = event.getNote();
@@ -92,7 +95,12 @@ public class ThreadCircle implements Runnable {
 				moveToTom(note);
 				i++;
 				try {
+					if (i == cercleRepresentation.size() - 1) {
+						Thread.sleep((long)(cercleRepresentation.get(i).getTemps()-timestamp) / 2);
+					}
+					else {
 						Thread.sleep((long)(cercleRepresentation.get(i+1).getTemps()-timestamp) / 2);
+					}
 				} catch (InterruptedException e) {
 					this.deleteTemporaryShapes();
 					running = false;
