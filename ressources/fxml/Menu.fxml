@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -21,19 +22,19 @@
             <Font size="46.0" />
          </font>
       </Text>
-      <Button fx:id="playFree" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onPlayFree" prefHeight="175.0" prefWidth="362.0" text="Play Free Style" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <Button fx:id="playFree" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onPlayFree" prefHeight="107.0" prefWidth="300.0" text="Play Free Style" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Button fx:id="listening" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onListening" prefHeight="175.0" prefWidth="362.0" text="Training mode" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <Button fx:id="listening" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onListening" prefHeight="107.0" prefWidth="300.0" text="Training mode" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Text id="welcome-text" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright Quentin Leclerc, Alexandre Hervier, Thibaut Sarion, Luis Rodriguez" textAlignment="CENTER" wrappingWidth="1251.2108154296875" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Text id="copyright" strokeType="OUTSIDE" strokeWidth="0.0" text="Copyright Quentin Leclerc, Alexandre Hervier, Thibaut Sarion, Luis Rodriguez" textAlignment="CENTER" wrappingWidth="1251.2108154296875" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
-            <Font size="22.0" />
+            <Font size="20.0" />
          </font>
       </Text>
    </children>

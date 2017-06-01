@@ -69,7 +69,7 @@ public class MainView extends Application {
 
             Scene scene = new Scene(myPane);
             stage.setScene(scene);
-            stage.setMaximized(true);
+            // stage.setMaximized(true);
 
 
             PlayFreeController controller = loader.getController();
